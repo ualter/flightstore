@@ -1,0 +1,28 @@
+server:
+  port: 9180
+  servlet:
+    context-path: /flightstore-airplane
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    
+spring:
+  application:
+    name: flightstore-airplane
+  #datasource:
+  #  driver-class-name: "com.mysql.cj.jdbc.Driver"
+  #  url: "jdbc:mysql://localhost:3306/bank-database?allowPublicKeyRetrieval=true&nullNamePatternMatchesAll=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC"
+  #  username: "bank"
+  #  password: "bank"
+  #jpa:
+  #  hibernate:
+  #     #ddl-auto: "create"
+  #     ddl-auto: "update"
+  #mvc:
+  #  view:
+  #     prefix: "/views/"
+  #     suffix: ".html"   
+            

@@ -2,6 +2,7 @@ package ujr.flightstore.airplane.api;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import ujr.flightstore.airplane.model.Airplane;
+import ujr.flightstore.airplane.service.AirplaneService;
 
 
 // Check: https://dzone.com/articles/spring-boot-2-restful-api-documentation-with-swagg
@@ -19,9 +21,12 @@ import ujr.flightstore.airplane.model.Airplane;
 @Api(value="Airplane REST API")
 @RestController
 @RequestMapping(path = "/api/v1")
-public class AirplaneController implements AirplaneService {
+public class AirplaneController {
+	
+	@Autowired
+	private AirplaneService airplaneService;
 
-	@ApiOperation(value = "View a list of available employees", response = List.class)
+	@ApiOperation(value = "List of available airplanes", response = List.class)
 	@ApiResponses(value = {
 	    @ApiResponse(code = 200, message = "Successfully retrieved list"),
 	    @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -30,8 +35,7 @@ public class AirplaneController implements AirplaneService {
 	})
 	@GetMapping("/airplanes")
 	public List<Airplane> list() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.airplaneService.list();
 	}
 
 	@GetMapping("/airplanes/manufacturer/{id}")
@@ -40,7 +44,6 @@ public class AirplaneController implements AirplaneService {
 		return null;
 	}
 
-	@Override
 	public Airplane getAirplane(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
