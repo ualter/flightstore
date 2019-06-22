@@ -3,37 +3,30 @@ package ujr.flightstore.airplane.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ujr.flightstore.airplane.model.Airplane;
-import ujr.flightstore.airplane.model.Manufacturer;
+import ujr.flightstore.airplane.repository.AirplaneRepository;
 
 @Service
 public class AirplaneService {
 	
+	@Autowired
+	private AirplaneRepository airplaneRepository;
 	
 	public List<Airplane> list() {
-		Manufacturer boeing = Manufacturer.builder().id(1).name("Boeing").build();
-		Manufacturer airbus = Manufacturer.builder().id(2).name("Airbus").build();
-		
 		List<Airplane> list = new ArrayList<Airplane>();
-		list.add(Airplane.builder()
-				.id(1).model("B737")
-				.manufacturer(boeing)
-				.build());
-		list.add(Airplane.builder()
-				.id(1).model("B777")
-				.manufacturer(boeing)
-				.build());
-		list.add(Airplane.builder()
-				.id(1).model("A320")
-				.manufacturer(airbus)
-				.build());
-		list.add(Airplane.builder()
-				.id(1).model("A350")
-				.manufacturer(airbus)
-				.build());
+		this.airplaneRepository.findAll().forEach(list::add);
 		return list;
+	}
+	
+	public List<Airplane> findByModel(String model) {
+		return this.airplaneRepository.findByModel(model);
+	}
+	
+	public void save(Airplane airplane) {
+		this.airplaneRepository.save(airplane);
 	}
 
 }

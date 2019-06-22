@@ -1,4 +1,0 @@
-# Commands
-
-
-/flightstore-aiplane$ mvn spring-boot:run -V

@@ -21,7 +21,7 @@ import ujr.flightstore.airplane.service.AirplaneService;
 @Api(value="Airplane REST API")
 @RestController
 @RequestMapping(path = "/api/v1")
-public class AirplaneController {
+public class AirplaneRestController {
 	
 	@Autowired
 	private AirplaneService airplaneService;
