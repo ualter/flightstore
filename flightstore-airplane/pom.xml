@@ -15,6 +15,9 @@
 
 	<name>flightstore-airplane</name>
 
+	<properties>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>mysql</groupId>

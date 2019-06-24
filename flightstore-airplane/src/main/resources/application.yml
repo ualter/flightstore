@@ -14,15 +14,11 @@ spring:
     name: flightstore-airplane
   datasource:
     driver-class-name: "com.mysql.cj.jdbc.Driver"
-    url: "jdbc:mysql://${MYSQL_IP}:${MYSQL_PORT}/flightstore?allowPublicKeyRetrieval=true&nullNamePatternMatchesAll=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC"
+    url: "jdbc:mysql://${MYSQL_IP:#{'localhost'}}:${MYSQL_PORT:#{'3306'}}/flightstore?allowPublicKeyRetrieval=true&nullNamePatternMatchesAll=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC"
     username: "flightuser"
     password: "takeoff"
   jpa:
     hibernate:
-        ddl-auto: "create"
-        #ddl-auto: "update"
-  #mvc:
-  #  view:
-  #     prefix: "/views/"
-  #     suffix: ".html"   
-            
+        # none, validate, update, create, and create-drop
+        ddl-auto: "validate"
+
