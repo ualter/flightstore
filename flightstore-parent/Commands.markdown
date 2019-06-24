@@ -49,12 +49,16 @@ $ docker exec 6a7826770c7e apk update
 # Install CURL on the Alpine (Ubuntu) Docker Image
 $ docker exec 6a7826770c7e apk add curl
 
-# More...
+# Docker Compose
 $ docker-compose up -d
 $ docker-compose logs
 $ docker-compose exec app ps
 $ docker-compose exec db ls
 $ docker-compose up -d --scale app=3
+
+# Volumes
+$ docker volume ls
+$ docker volume prune
 ````
 
 
