@@ -1,8 +1,6 @@
-### Commands
-
- -Dspring.profiles.active=windows
-
-##### Maven
+### Annotations
+---
+#### Maven
 ```bash
 # Start SpringBoot
 /flightstore-aiplane $ mvn spring-boot:run -Dspring.profiles.active=windows -Djasypt.encryptor.password=**** -Dspring.flyway.user=**** -Dspring.flyway.password=**** -V
@@ -20,18 +18,18 @@
 /flightstore-aiplane $ mvn install dockerfile:build 
 
 ```
-
-##### Java
+---
+#### Java
 ```bash
 # Start with Windows Profile (application-windows.properties)
 /flightstore-aiplane $ java -jar  -Dspring.profiles.active=windows -Djasypt.encryptor.password=**** target/flightstore-airplane-1.0.jar
 
 # Start with Environment Variables
-/flightstore-aiplane $ java -jar  -DMYSQL_IP=localhost -DMYSQL_PORT=4406 -Djasypt.encryptor.password=**** -Dspring.flyway.placeholders.userpass=**** -Dspring.flyway.user=**** -Dspring.flyway.password=**** target/flightstore-airplane-1.0.jar
+/flightstore-aiplane $ java -jar  -DMYSQL_IP=localhost -DMYSQL_PORT=4406 -Djasypt.encryptor.password=**** -Dspring.flyway.placeholders.userpass=**** -Dspring.flyway.user=root -Dspring.flyway.password=**** target/flightstore-airplane-1.0.jar
 
 ```
-
-##### Docker
+---
+#### Docker
 ```bash
 # Create Docker Image with DockerFile SpringBoot
 #Dockerfile must be at the same folder
@@ -64,6 +62,13 @@ $ docker-compose up -d --scale app=3
 # Volumes
 $ docker volume ls
 $ docker volume prune
+
+# List all Docker Container IDs in Sequence (remove breaklines)
+$ docker ps -a | awk 'NR==2,NR==3 {print $1}' | sed ':a;N;$!ba;s/\n/ /g'
+# Stop all Docker Container IDs in Sequence (remove breaklines)
+$ docker ps -a | awk 'NR==2,NR==3 {print $1}' | sed ':a;N;$!ba;s/\n/ /g' | xargs docker stop
+# Remove all Docker Container IDs in Sequence (remove breaklines)
+$ docker ps -a | awk 'NR==2,NR==3 {print $1}' | sed ':a;N;$!ba;s/\n/ /g' | xargs docker rm
 ````
 
 
