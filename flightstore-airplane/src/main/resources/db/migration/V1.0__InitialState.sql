@@ -16,6 +16,9 @@ CREATE TABLE airplane (
           REFERENCES manufacturer(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE USER IF NOT EXISTS 'flightuser'@'%' IDENTIFIED BY 'takeoff';
+GRANT INSERT, SELECT, DELETE, UPDATE ON * . * TO 'flightuser'@'%';
+FLUSH PRIVILEGES;
 
 INSERT INTO `manufacturer` (`id`,`name`) VALUES (1,'Boeing');
 INSERT INTO `manufacturer` (`id`,`name`) VALUES (2,'Airbus');
