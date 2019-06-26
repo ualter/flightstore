@@ -3,10 +3,10 @@
 #### Maven
 ```bash
 # Start SpringBoot
-/flightstore-aiplane $ mvn spring-boot:run -Dspring.profiles.active=windows -Djasypt.encryptor.password=**** -Dspring.flyway.user=**** -Dspring.flyway.password=**** -V
+/flightstore-aiplane $ mvn spring-boot:run -Dspring.profiles.active=windows -Djasypt.encryptor.password=**** -Dspring.flyway.user=**** -Dspring.flyway.password=**** -Dspring.flyway.placeholders.userpass=**** -V
 
 # Debug SpringBoot
-/flightstore-aiplane $ mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,addre ss=5005 -Dspring.profiles.active=windows -Djasypt.encryptor.password=**** -Dspring.flyway.user=**** -Dspring.flyway.password=****"
+/flightstore-aiplane $ mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,addre ss=5005 -Dspring.profiles.active=windows -Djasypt.encryptor.password=**** -Dspring.flyway.user=**** -Dspring.flyway.password=**** -Dspring.flyway.placeholders.userpass=****"
 
 # Package running Test WITH Integration Tests
 /flightstore-aiplane $ mvn clean package -Dspring.profiles.active=windows -Dintegration-tests=true -Djasypt.encryptor.password=**** 
@@ -38,10 +38,10 @@ $ mvn install dockerfile:build
 # Launch Docker Container
 $ docker run -e MYSQL_IP=10.253.163.97 -e MYSQL_PORT=4406 -e jasypt.encryptor.password=**** -e spring.flyway.placeholders.userpass=**** -e spring.flyway.user=root -e spring.flyway.password=**** -p 9181:9180 ualter/flightstore-airplane
 
-docker run -e MYSQL_IP=localhost -e MYSQL_PORT=4406 -e jasypt.encryptor.password=ualter -Dspring.flyway.placeholders.userpass=takeoff -Dspring.flyway.user=root -Dspring.flyway.password=captain -p 9181:9180 ualter/flightstore-airplane
+docker run -e MYSQL_IP=localhost -e MYSQL_PORT=4406 -e jasypt.encryptor.password=**** -e spring.flyway.placeholders.userpass=**** -e spring.flyway.user=**** -e spring.flyway.password=**** -p 9181:9180 ualter/flightstore-airplane
 
 # Debug Docker Container
-$ docker run -e MYSQL_IP=192.168.99.101 -e MYSQL_PORT=4406 -e jasypt.encryptor.password=**** -e "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n" -p 9181:9180 ualter/flightstore-airplane
+$ docker run -e MYSQL_IP=192.168.99.101 -e MYSQL_PORT=4406 -e jasypt.encryptor.password=**** -e spring.flyway.placeholders.userpass=**** -e spring.flyway.user=**** -e spring.flyway.password=**** -e "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n" -p 9181:9180 ualter/flightstore-airplane
 
 # Interacting Bash with Alpine Docker Image
 $ docker exec -it 6a7826770c7e sh
