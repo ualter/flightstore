@@ -6,7 +6,6 @@ services:
     restart: always
     environment:
       - MYSQL_DATABASE=flightstore
-      - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     ports:
@@ -17,7 +16,7 @@ services:
       - my-db:/var/lib/mysql
       
   app:
-    build: ../flightstore-airplane
+    build: ../../flightstore-airplane/Dockerfile
     image: ualter/flightstore-airplane
     environment:
       - MYSQL_IP=db 
