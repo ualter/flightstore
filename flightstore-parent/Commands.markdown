@@ -1,6 +1,6 @@
-### Annotations
+#Annotations
 ---
-#### Maven
+##Maven
 ```bash
 # Start SpringBoot
 /flightstore-aiplane $ mvn spring-boot:run -Dspring.profiles.active=windows -Djasypt.encryptor.password=**** -Dspring.flyway.user=**** -Dspring.flyway.password=**** -Dspring.flyway.placeholders.userpass=**** -V
@@ -19,7 +19,7 @@
 
 ```
 ---
-#### Java
+##Java
 ```bash
 # Start with Windows Profile (application-windows.properties)
 /flightstore-aiplane $ java -jar  -Dspring.profiles.active=windows -Djasypt.encryptor.password=**** target/flightstore-airplane-1.0.jar
@@ -29,7 +29,7 @@
 
 ```
 ---
-#### Docker
+##Docker
 ```bash
 # Create Docker Image with DockerFile SpringBoot
 #Dockerfile must be at the same folder
@@ -55,6 +55,7 @@ $ docker exec 6a7826770c7e apk add curl
 # Docker Compose
 $ docker-compose up -d
 $ docker-compose logs
+$ docker-compose logs -f --tail=10
 $ docker-compose exec app ps
 $ docker-compose exec db ls
 $ docker-compose up -d --scale app=3
@@ -69,6 +70,13 @@ $ docker ps -a | awk 'NR==2,NR==3 {print $1}' | sed ':a;N;$!ba;s/\n/ /g'
 $ docker ps -a | awk 'NR==2,NR==3 {print $1}' | sed ':a;N;$!ba;s/\n/ /g' | xargs docker stop
 # Remove all Docker Container IDs in Sequence (remove breaklines)
 $ docker ps -a | awk 'NR==2,NR==3 {print $1}' | sed ':a;N;$!ba;s/\n/ /g' | xargs docker rm
-````
+```
+---
+##REST Commands
+```bash
+$ curl -s GET   http://localhost:9180/flightstore-airplane/api/v1/airplanes | jq .
+
+$ curl -s GET   http://localhost:9180/flightstore-airplane/api/v1/manufacturers | jq .
+```
 
 

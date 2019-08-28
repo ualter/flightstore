@@ -14,7 +14,7 @@ spring:
     name: flightstore-airplane
   datasource:
     driver-class-name: "com.mysql.cj.jdbc.Driver"
-    url: "jdbc:mysql://${MYSQL_IP:#{'localhost'}}:${MYSQL_PORT:#{'3306'}}/flightstore?allowPublicKeyRetrieval=true&nullNamePatternMatchesAll=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC"
+    url: "jdbc:mysql://${MYSQL_IP:#{'localhost'}}:${MYSQL_PORT:#{'3306'}}/fs-airplane?allowPublicKeyRetrieval=true&nullNamePatternMatchesAll=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC"
     username: "flightuser"
     password: ENC(vNE0u2hbWmphhQ4ugz7KPw==)
   jpa:

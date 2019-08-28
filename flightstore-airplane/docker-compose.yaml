@@ -7,8 +7,8 @@ services:
     depends_on:
       - db
     environment:
-      - MYSQL_IP=db 
-      - MYSQL_PORT=3306
+      - MYSQL_IP=${MYSQL_IP} 
+      - MYSQL_PORT=${MYSQL_PORT}
       - spring.flyway.user=root
       - spring.flyway.password=${MYSQL_ROOT_PASSWORD}
       - jasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
@@ -18,29 +18,3 @@ services:
       - 9181:9180
     expose:
       - '9181'
-      
-  db:
-    image: mysql:latest
-    restart: always
-    environment:
-      - MYSQL_DATABASE=flightstore
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-    ports:
-      - '4406:3306'
-    expose:
-      - '4406'
-    volumes:
-      - my-db:/var/lib/mysql
-      
-      
-  
-  #Alternative WebConsole for MySQL    
-  #adminer:
-  #  image: adminer
-  #  restart: always
-  #  ports:
-  #    - 8383:8080
-      
-volumes:
-  my-db:    

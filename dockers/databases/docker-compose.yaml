@@ -1,0 +1,28 @@
+version: '3.3' 
+
+services:
+  mysql-db:
+    image: mysql:latest
+    restart: always
+    environment:
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    ports:
+      # <Port exposed to Host> : < MySQL Port running inside container>
+      - '4406:3306'
+    expose:
+      # Opens port 4406 on the container
+      - '4406'
+    volumes:
+      # MySQL data on host 
+      - mysql-db-volume:/var/lib/mysql
+      # Script to create (many) databases 
+      - ./mysql-init:/docker-entrypoint-initdb.d
+  
+volumes:
+  mysql-db-volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/${MYSQL_VOLUME_PATH}
+      o: bind
