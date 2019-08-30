@@ -1,0 +1,1 @@
+docker run -d -p 6379:6379 -v $PWD/redis.conf:/usr/local/etc/redis/redis.conf --name redis-flightstore redis redis-server /usr/local/etc/redis/redis.conf
