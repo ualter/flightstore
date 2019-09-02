@@ -28,9 +28,9 @@ import ujr.flightstore.airplane.service.AirplaneService;
 
 
 /**
- * At Integration Test, everything of Spring layers are loaded, all the application context, on each one. 
- * So this could be very heavy and slow, most of the time it is better (or enough) to choose an Unit Test (with some layers Mocked and controlled by you, according to the desired scenario to be tested).
- * Use Integration Test only when it is really necessary to test all of the layers controlled and loaded by the Spring framework, none by you!  As always pros and cons, check each case.  
+ * At Integration Test, everything of Spring layers are loaded, all the application context. 
+ * So, this could be very heavy and slow, most of the time it is better (or enough) to choose an Unit Test (with some layers Mocked and controlled by you, according to the desired scenario to be tested).
+ * Use Integration Test only when it is really necessary to test all of the layers controlled and loaded by the Spring framework, none by you!  Check accordingly each case.  
  * @author Ualter Jr.
  */
 @RunWith(SpringRunner.class)
@@ -38,7 +38,6 @@ import ujr.flightstore.airplane.service.AirplaneService;
 @SpringBootTest(classes = { AirplaneApp.class }, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-@TestPropertySource("/application-test.properties")
 public class AirplaneIntegrationTest {
 
 	@Autowired

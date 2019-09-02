@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -30,10 +29,10 @@ import ujr.flightstore.airplane.controller.AirplaneRestController;
 import ujr.flightstore.airplane.model.Airplane;
 import ujr.flightstore.airplane.model.Manufacturer;
 import ujr.flightstore.airplane.service.AirplaneService;
+import ujr.flightstore.airplane.service.ManufacturerService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(AirplaneRestController.class)
-@TestPropertySource("/application-test.properties")
 public class AirplaneRestControllerTest {
 	
 	@Autowired
@@ -41,6 +40,8 @@ public class AirplaneRestControllerTest {
 	
 	@MockBean
 	private AirplaneService airplaneService;
+	@MockBean
+	private ManufacturerService manufacturerServiceService;
 	
 	private Manufacturer boeing;
 	private Manufacturer airbus;

@@ -9,8 +9,6 @@ services:
     environment:
       - MYSQL_IP=db 
       - MYSQL_PORT=3306
-      - spring.flyway.user=root
-      - spring.flyway.password=${MYSQL_ROOT_PASSWORD}
       - jasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
       - spring.flyway.placeholders.userpass=${MYSQL_PASSWORD}
       - spring.flyway.connect-retries=30

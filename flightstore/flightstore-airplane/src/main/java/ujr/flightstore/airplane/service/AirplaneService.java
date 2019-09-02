@@ -42,7 +42,7 @@ public class AirplaneService {
 	}
 	
 	public Airplane findById(Long id) {
-		return this.airplaneRepository.findById(id).get();
+		return this.airplaneRepository.findById(id).orElse(null);
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import ujr.flightstore.Messages;
 import ujr.flightstore.airplane.model.Manufacturer;
 import ujr.flightstore.airplane.service.ManufacturerService;
 import ujr.flightstore.exception.ResourceNotFoundException;
@@ -57,7 +59,7 @@ public class ManufacturerRestController {
 	public Manufacturer findById(@PathVariable(value = "id") Long id) {
 		Manufacturer manufacturer = this.manufacturerService.findById(id);
 		if ( manufacturer == null ) {
-			throw new ResourceNotFoundException("Manufacturer Not Found with id: " + id);
+			throw new ResourceNotFoundException(Messages.message404("Manufacturer", id));
 		}
 		return manufacturer;
 	}

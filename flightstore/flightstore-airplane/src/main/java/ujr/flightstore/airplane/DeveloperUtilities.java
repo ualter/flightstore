@@ -25,6 +25,8 @@ public class DeveloperUtilities {
 		String  secretKey = scanner.nextLine();
 		System.out.print("Enter the Password to Encrypt....: ");
 		String password   = scanner.nextLine();
+		
+		
 		BasicTextEncryptor encryptor = new BasicTextEncryptor();
 		encryptor.setPassword(secretKey);
 		String encrypted = encryptor.encrypt(password);

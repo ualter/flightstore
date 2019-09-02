@@ -22,11 +22,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import ujr.flightstore.airplane.model.Airplane;
 import ujr.flightstore.airplane.model.Manufacturer;
 import ujr.flightstore.airplane.service.AirplaneService;
+import ujr.flightstore.airplane.service.ManufacturerService;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-@TestPropertySource("/application-test.properties")
 public class AirplaneServiceTest {
 	
 	@TestConfiguration
@@ -35,6 +35,11 @@ public class AirplaneServiceTest {
 		public AirplaneService airplaneService() {
 			return new AirplaneService();
 		}
+		
+		@Bean
+		public ManufacturerService manufacturerService() {
+			return new ManufacturerService();
+		}
 	}
 	
 	@Autowired
@@ -42,6 +47,9 @@ public class AirplaneServiceTest {
 	
 	@Autowired
 	private AirplaneService airplaneService;
+	
+	@Autowired
+	private ManufacturerService manufacturerService;
 	
 	private boolean setUp = false;
 	private int pageSize = 3;

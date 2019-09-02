@@ -4,15 +4,10 @@ services:
   app:
     build: .
     image: ualter/flightstore-airplane
-    depends_on:
-      - db
     environment:
       - MYSQL_IP=${MYSQL_IP} 
       - MYSQL_PORT=${MYSQL_PORT}
-      - spring.flyway.user=root
-      - spring.flyway.password=${MYSQL_ROOT_PASSWORD}
       - jasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
-      - spring.flyway.placeholders.userpass=${MYSQL_PASSWORD}
       - spring.flyway.connect-retries=30
     ports:
       - 9181:9180

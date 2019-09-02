@@ -19,8 +19,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import ujr.flightstore.Messages;
 import ujr.flightstore.airplane.model.Airplane;
 import ujr.flightstore.airplane.service.AirplaneService;
+import ujr.flightstore.exception.ResourceNotFoundException;
 
 
 // Check: https://dzone.com/articles/spring-boot-2-restful-api-documentation-with-swagg
@@ -69,7 +71,11 @@ public class AirplaneRestController {
 	@GetMapping(path = "/airplanes/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public Airplane findById(@PathVariable(value = "id") Long id) {
-		return this.airplaneService.findById(id);
+		Airplane airplane = this.airplaneService.findById(id);
+		if ( airplane == null ) {
+			throw new ResourceNotFoundException(Messages.message404("Airplane", id));
+		}
+		return airplane;
 	}
 	
 	@ApiOperation(value = "Create an airplane", response = Airplane.class)
