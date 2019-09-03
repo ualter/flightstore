@@ -1,8 +1,10 @@
 package ujr.flightstore.airplane.controller;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import ujr.flightstore.Messages;
 import ujr.flightstore.airplane.model.Manufacturer;
 import ujr.flightstore.airplane.service.ManufacturerService;
 import ujr.flightstore.controller.CommonApiResponsesCreation;
@@ -33,7 +34,10 @@ public class ManufacturerRestController {
 	
 	@Autowired
 	private ManufacturerService manufacturerService;
-
+	
+	@Autowired
+	private MessageSource messageSource;
+	
 	@ApiOperation(value = "List of available manufacturers", response = List.class, tags = { "Manufacturer" })
 	@CommonApiResponsesQuery
 	@GetMapping(path = "/manufacturers", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -49,7 +53,9 @@ public class ManufacturerRestController {
 	public Manufacturer findById(@PathVariable(value = "id") Long id) {
 		Manufacturer manufacturer = this.manufacturerService.findById(id);
 		if ( manufacturer == null ) {
-			throw new ResourceNotFoundException(Messages.message404("Manufacturer", id));
+			throw new ResourceNotFoundException(
+				messageSource.getMessage("errors.resource_not_found", new Object[]{"Manufacturer",id}, Locale.getDefault())
+			);
 		}
 		return manufacturer;
 	}
