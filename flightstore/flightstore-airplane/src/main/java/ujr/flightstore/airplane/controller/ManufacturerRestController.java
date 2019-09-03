@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,15 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import ujr.flightstore.Messages;
 import ujr.flightstore.airplane.model.Manufacturer;
 import ujr.flightstore.airplane.service.ManufacturerService;
+import ujr.flightstore.controller.CommonApiResponsesCreation;
+import ujr.flightstore.controller.CommonApiResponsesQuery;
+import ujr.flightstore.controller.CommonApiResponsesUpdate;
 import ujr.flightstore.exception.ResourceNotFoundException;
 
 
-@Api(value="Manufacturer REST API")
+@Api(value = "Flightstore", description = "REST API for Manufacturers", tags = { "Manufacturer" })
 @RestController
 @RequestMapping(path = "/api/v1")
 public class ManufacturerRestController {
@@ -34,13 +34,8 @@ public class ManufacturerRestController {
 	@Autowired
 	private ManufacturerService manufacturerService;
 
-	@ApiOperation(value = "List of available manufacturers", response = List.class)
-	@ApiResponses(value = {
-	    @ApiResponse(code = 200, message = "Successfully retrieved list"),
-	    @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-	    @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-	    @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-	})
+	@ApiOperation(value = "List of available manufacturers", response = List.class, tags = { "Manufacturer" })
+	@CommonApiResponsesQuery
 	@GetMapping(path = "/manufacturers", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public List<Manufacturer> list() {
@@ -48,12 +43,7 @@ public class ManufacturerRestController {
 	}
 
 	@ApiOperation(value = "Find a specific Manufacturer", response = Manufacturer.class)
-	@ApiResponses(value = {
-	    @ApiResponse(code = 200, message = "Successfully retrieved list"),
-	    @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-	    @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-	    @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-	})
+	@CommonApiResponsesQuery
 	@GetMapping(path = "/manufacturers/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public Manufacturer findById(@PathVariable(value = "id") Long id) {
@@ -65,12 +55,7 @@ public class ManufacturerRestController {
 	}
 	
 	@ApiOperation(value = "Create an manufacturer", response = Manufacturer.class)
-	@ApiResponses(value = {
-	    @ApiResponse(code = 201, message = "Successfully created the manufacturer"),
-	    @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-	    @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-	    @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-	})
+	@CommonApiResponsesCreation
 	@PostMapping(path = "/manufacturers", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -79,12 +64,7 @@ public class ManufacturerRestController {
 	}
 	
 	@ApiOperation(value = "Update an manufacturer", response = Void.class)
-	@ApiResponses(value = {
-	    @ApiResponse(code = 202, message = "Successfully updated the manufacturer"),
-	    @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-	    @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-	    @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-	})
+	@CommonApiResponsesUpdate
 	@PutMapping(path = "/manufacturers", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseStatus(value = HttpStatus.ACCEPTED)
 	public void update(@RequestBody Manufacturer manufacturer) {

@@ -17,17 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import ujr.flightstore.Messages;
 import ujr.flightstore.airplane.model.Airplane;
 import ujr.flightstore.airplane.service.AirplaneService;
+import ujr.flightstore.controller.CommonApiResponsesCreation;
+import ujr.flightstore.controller.CommonApiResponsesQuery;
+import ujr.flightstore.controller.CommonApiResponsesUpdate;
 import ujr.flightstore.exception.ResourceNotFoundException;
 
 
 // Check: https://dzone.com/articles/spring-boot-2-restful-api-documentation-with-swagg
 
-@Api(value="Airplane REST API")
+@Api(value = "Flightstore", description = "REST API for Airplane", tags = { "Airplane" })
 @RestController
 @RequestMapping(path = "/api/v1")
 public class AirplaneRestController {
@@ -35,13 +36,8 @@ public class AirplaneRestController {
 	@Autowired
 	private AirplaneService airplaneService;
 
-	@ApiOperation(value = "List of available airplanes", response = List.class)
-	@ApiResponses(value = {
-	    @ApiResponse(code = 200, message = "Successfully retrieved list"),
-	    @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-	    @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-	    @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-	})
+	@ApiOperation(value = "List of available airplanes", response = List.class, tags = { "Airplane" } )
+	@CommonApiResponsesQuery
 	@GetMapping(path = "/airplanes", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public List<Airplane> list() {
@@ -49,12 +45,7 @@ public class AirplaneRestController {
 	}
 
 	@ApiOperation(value = "List of airplanes of a specific Manufacturer", response = List.class)
-	@ApiResponses(value = {
-	    @ApiResponse(code = 200, message = "Successfully retrieved list"),
-	    @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-	    @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-	    @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-	})
+	@CommonApiResponsesQuery
 	@GetMapping(path = "/airplanes/manufacturer/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public List<Airplane> findByManufacturer(@PathVariable(value = "id") Long manufacturerId) {
@@ -62,12 +53,7 @@ public class AirplaneRestController {
 	}
 
 	@ApiOperation(value = "Find a specific Airplane", response = Airplane.class)
-	@ApiResponses(value = {
-	    @ApiResponse(code = 200, message = "Successfully retrieved list"),
-	    @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-	    @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-	    @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-	})
+	@CommonApiResponsesQuery
 	@GetMapping(path = "/airplanes/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public Airplane findById(@PathVariable(value = "id") Long id) {
@@ -79,12 +65,7 @@ public class AirplaneRestController {
 	}
 	
 	@ApiOperation(value = "Create an airplane", response = Airplane.class)
-	@ApiResponses(value = {
-	    @ApiResponse(code = 201, message = "Successfully created the airplane"),
-	    @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-	    @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-	    @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-	})
+	@CommonApiResponsesCreation
 	@PostMapping(path = "/airplanes", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -93,12 +74,7 @@ public class AirplaneRestController {
 	}
 	
 	@ApiOperation(value = "Update an airplane", response = Void.class)
-	@ApiResponses(value = {
-	    @ApiResponse(code = 202, message = "Successfully updated the airplane"),
-	    @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-	    @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-	    @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-	})
+	@CommonApiResponsesUpdate
 	@PutMapping(path = "/airplanes", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseStatus(value = HttpStatus.ACCEPTED)
 	public void update(@RequestBody Airplane airplane) {

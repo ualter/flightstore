@@ -27,7 +27,7 @@ public class Swagger2Config {
 	}
 
 	private ApiInfo apiEndPointsInfo() {
-		return new ApiInfoBuilder().title("Spring Boot REST API").description("Airplane REST API")
+		return new ApiInfoBuilder().title("Flightstore API").description("REST API of the Flightstore application")
 				.contact(new Contact("Ualter Azambuja Junior", "http://ualterazambuja.com", "ualter.junior@gmail.com"))
 				.license("Apache 2.0")
 				.licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
