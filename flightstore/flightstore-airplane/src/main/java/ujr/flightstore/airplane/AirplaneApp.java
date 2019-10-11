@@ -22,7 +22,10 @@ public class AirplaneApp
     		if ( arg.contains("jasypt.encryptor.password") ) {
     			String jasyptPassword = arg.split("=")[1];
     			System.setProperty("jasypt.encryptor.password", jasyptPassword);
-    			break;
+    		} else
+    		if ( arg.contains("spring.profiles.active") ) {
+    			String profile = arg.split("=")[1];
+    			System.setProperty("spring.profiles.active", profile);
     		}
         }
     	

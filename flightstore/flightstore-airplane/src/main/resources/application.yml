@@ -64,8 +64,9 @@ mysql:
 spring:
   profiles: windows
 mysql:
-  ip: 192.168.99.101
+  ip: 192.168.99.100
   port: 4406
+redis-cache:  host: "192.168.99.100"
   
 ---
 

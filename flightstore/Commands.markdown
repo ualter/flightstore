@@ -2,6 +2,11 @@
 ---
 ##Maven
 ```bash
+
+### Send JASYPT arguments if not working the default mode  (Workaround)
+$ mvn spring-boot:run -Dspring-boot.run.arguments=jasypt.encryptor.password=***
+$ mvn spring-boot:run -Dspring-boot.run.arguments=spring.profiles.active=windows,jasypt.encryptor.password=***
+
 # Start SpringBoot
 ## Default Profile (Mac)
 $ mvn spring-boot:run -Djasypt.encryptor.password=**** -V
