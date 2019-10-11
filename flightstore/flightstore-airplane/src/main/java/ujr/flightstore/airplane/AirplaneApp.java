@@ -18,6 +18,15 @@ public class AirplaneApp
 {
     public static void main( String[] args )
     {
+    	for(String arg:args) {
+    		if ( arg.contains("jasypt.encryptor.password") ) {
+    			String jasyptPassword = arg.split("=")[1];
+    			System.setProperty("jasypt.encryptor.password", jasyptPassword);
+    			break;
+    		}
+        }
+    	
         SpringApplication.run(AirplaneApp.class);
     }
+    
 }

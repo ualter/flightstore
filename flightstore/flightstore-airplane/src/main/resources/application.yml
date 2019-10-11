@@ -8,6 +8,8 @@ management:
     web:
       exposure:
         include: "*"
+        
+#myProperty: ENC(nRcqiSTxY46XWZLZmiRarw==)         
     
 spring:
   application:
@@ -18,15 +20,12 @@ spring:
     driver-class-name: "com.mysql.cj.jdbc.Driver"
     url: "jdbc:mysql://${mysql.ip:#{'Ops...'}}:${mysql.port:#{'9999'}}/fs-airplane?allowPublicKeyRetrieval=true&nullNamePatternMatchesAll=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC"
     username: "flightuser"
-    password: takeoff
-    #password: ENC(nRcqiSTxY46XWZLZmiRarw==)
+    password: ENC(nRcqiSTxY46XWZLZmiRarw==)
   flyway:
     user: root
-    #password: captain
     password: ENC(6vNa9VG617d+i1FP5RMVIg==)
     placeholders:
-     userpass: takeoff
-     #userpass: ENC(nRcqiSTxY46XWZLZmiRarw==)  
+     userpass: ENC(nRcqiSTxY46XWZLZmiRarw==)  
   jpa:
     hibernate:
         # none, validate, update, create, and create-drop
