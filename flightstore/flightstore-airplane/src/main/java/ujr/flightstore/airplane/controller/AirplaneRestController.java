@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -70,6 +71,19 @@ public class AirplaneRestController {
 		return airplane;
 	}
 	
+	@ApiOperation(value = "Delete a specific Airplane", response = Airplane.class)
+	@CommonApiResponsesQuery
+	@DeleteMapping(path = "/airplanes/{id}")
+	public void removeById(@PathVariable(value = "id") Long id) {
+		Airplane airplane = this.airplaneService.findById(id);
+		if ( airplane == null ) {
+			throw new ResourceNotFoundException(
+				messageSource.getMessage("errors.resource_not_found", new Object[]{"Airplane",id}, Locale.getDefault())
+			);
+		}
+		this.airplaneService.remove(airplane);
+	}
+	
 	@ApiOperation(value = "Create an airplane", response = Airplane.class)
 	@CommonApiResponsesCreation
 	@PostMapping(path = "/airplanes", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -85,6 +99,14 @@ public class AirplaneRestController {
 	@ResponseStatus(value = HttpStatus.ACCEPTED)
 	public void update(@RequestBody Airplane airplane) {
 		this.airplaneService.save(airplane);
+	}
+	
+	@ApiOperation(value = "Clean airplanes cache", response = List.class, tags = { "Airplane" } )
+	@CommonApiResponsesQuery
+	@GetMapping(path = "/airplanes/cache/clean", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseStatus(value = HttpStatus.ACCEPTED)
+	public void clean() {
+		this.airplaneService.cleanCache();
 	}
 	
 	

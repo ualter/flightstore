@@ -114,6 +114,13 @@ java -cp ~/.m2/repository/org/jasypt/jasypt/1.9.3/jasypt-1.9.3.jar org.jasypt.in
 $ mvn flyway:repair -Dflyway.user=*** -Dflyway.password=*** -Dflyway.url=jdbc:mysql://localhost:4406/fs-airplane
 ```
 
+##Redis - Cache
+```bash
+$ docker exec -it redis-flightstore redis-cli
+127.0.0.1:6379> keys *
+127.0.0.1:6379> get "manufacturers::1"
+```
+
 ##QuickStart (Boot up)
 ```bash
 #1 Start MySQL Docker

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +39,7 @@ public class ManufacturerRestController {
 	@Autowired
 	private MessageSource messageSource;
 	
+	
 	@ApiOperation(value = "List of available manufacturers", response = List.class, tags = { "Manufacturer" })
 	@CommonApiResponsesQuery
 	@GetMapping(path = "/manufacturers", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -60,6 +62,20 @@ public class ManufacturerRestController {
 		return manufacturer;
 	}
 	
+	@ApiOperation(value = "Delete a specific Manufacturer", response = Manufacturer.class)
+	@CommonApiResponsesQuery
+	@DeleteMapping(path = "/manufacturers/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseStatus(value = HttpStatus.ACCEPTED)
+	public void removeById(@PathVariable(value = "id") Long id) {
+		Manufacturer manufacturer = this.manufacturerService.findById(id);
+		if ( manufacturer == null ) {
+			throw new ResourceNotFoundException(
+				messageSource.getMessage("errors.resource_not_found", new Object[]{"Manufacturer",id}, Locale.getDefault())
+			);
+		}
+		this.manufacturerService.remove(manufacturer);
+	}
+	
 	@ApiOperation(value = "Create an manufacturer", response = Manufacturer.class)
 	@CommonApiResponsesCreation
 	@PostMapping(path = "/manufacturers", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -75,6 +91,14 @@ public class ManufacturerRestController {
 	@ResponseStatus(value = HttpStatus.ACCEPTED)
 	public void update(@RequestBody Manufacturer manufacturer) {
 		this.manufacturerService.save(manufacturer);
+	}
+	
+	@ApiOperation(value = "Clean manufacturers cache", response = List.class)
+	@CommonApiResponsesQuery
+	@GetMapping(path = "/manufacturers/cache/clean", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseStatus(value = HttpStatus.ACCEPTED)
+	public void clean() {
+		this.manufacturerService.cleanCache();
 	}
 	
 	
