@@ -17,12 +17,15 @@ services:
       # MySQL data on host 
       - mysql-db-volume:/var/lib/mysql
       # Script to create (many) databases 
-      - ./mysql-init:/docker-entrypoint-initdb.d
+      - ${MYSQL_INIT_PATH}:/docker-entrypoint-initdb.d
+    #command: --innodb-flush-method=O_DSYNC --innodb-use-native-aio=0 --log_bin=ON  
+    # Necessary for Windows 10 - Disable AIO - Does'nt work on shared Folders (case of Docher-Machine): https://stackoverflow.com/a/48631919/577769
+    command: --innodb_use_native_aio=0 
   
 volumes:
   mysql-db-volume:
     driver: local
     driver_opts:
       type: none
-      device: ./${MYSQL_VOLUME_PATH}
+      device: ${MYSQL_VOLUME_PATH}
       o: bind
