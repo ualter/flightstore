@@ -9,8 +9,6 @@ management:
       exposure:
         include: "*"
         
-#myProperty: ENC(nRcqiSTxY46XWZLZmiRarw==)         
-    
 spring:
   application:
     name: flightstore-airplane
