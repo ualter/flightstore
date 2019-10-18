@@ -11,16 +11,24 @@ services:
           REGISTRY_HTTP_ADDR: 0.0.0.0:5000
           REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
           REGISTRY_HTTP_TLS_KEY: /certs/domain.key
+          
+          ## In case the Images being stored at AWS S3
           #REGISTRY_STORAGE: s3
           #REGISTRY_STORAGE_S3_ACCESSKEY: <api access key>
           #REGISTRY_STORAGE_S3_SECRETKEY: <api secret>
           #REGISTRY_STORAGE_S3_BUCKET: <bucket name>
           #REGISTRY_STORAGE_S3_REGION: <region>
           #REGISTRY_HEALTH_STORAGEDRIVER_ENABLED: false
+          
+          ## HTTP Basic Authentication for Registry Access
+          REGISTRY_AUTH: 'htpasswd'
+          REGISTRY_AUTH_HTPASSWD_REALM: 'docker-ualter'
+          REGISTRY_AUTH_HTPASSWD_PATH: '/httpasswd_storage/htpasswd'
         ports:
           - "5000:5000"
         volumes:
-          - ${MY_REGISTRY_CERTS}:/certs    
+          - ${MY_REGISTRY_CERTS}:/certs
+          - ${REGISTRY_AUTH_PATH}:/httpasswd_storage          
     registry-frontend:
         image: konradkleine/docker-registry-frontend:v2
         restart: always
