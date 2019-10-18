@@ -3,6 +3,9 @@
 ##Maven
 ```bash
 
+# Alternative to Set Jasypt Symmetric password Decryption
+export JASYPT_ENCRYPTOR_PASSWORD=***
+
 ### Send JASYPT arguments if not working the default mode  (Workaround)
 $ mvn spring-boot:run -Dspring-boot.run.arguments=jasypt.encryptor.password=***
 $ mvn spring-boot:run -Dspring-boot.run.arguments=spring.profiles.active=windows,jasypt.encryptor.password=***
@@ -23,7 +26,8 @@ $ mvn clean package -Dspring.profiles.active=mac,test  -Dintegration-tests=true 
 $ mvn clean package -Dspring.profiles.active=mac,test -Djasypt.encryptor.password=***
 
 #Dockerfile must be at the same folder
-$ mvn install dockerfile:build 
+$ mvn install -Dspring.profiles.active=mac,test  -Djasypt.encryptor.password=***  dockerfile:build
+$ mvn install -Dmaven.test.skip=false dockerfile:build
 
 #Others
 $ mvn clean package -Dmaven.test.skip=true
