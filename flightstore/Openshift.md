@@ -40,5 +40,6 @@ POSTGRESQL_USER=user
 POSTGRESQL_DATABASE=db
 POSTGRESQL_PASSWORD=password
 $ oc new-app openshift/postgresql-92-centos7 --env-file=postgresql.env
-
 ```
+
+More: https://docs.okd.io/latest/dev_guide/application_lifecycle/new_app.html
