@@ -1,6 +1,6 @@
 Openshift / Minishift / OC Client
 
-````bash
+```bash
 
 # List all resouces available to interact with...
 $ oc api-resources
