@@ -33,5 +33,12 @@ $ oc new-app openshift/postgresql-92-centos7 \
     -e POSTGRESQL_USER=user \
     -e POSTGRESQL_DATABASE=db \
     -e POSTGRESQL_PASSWORD=password
+    
+# Specifying Enviroment Variable via .env file
+$ cat postgresql.env
+POSTGRESQL_USER=user
+POSTGRESQL_DATABASE=db
+POSTGRESQL_PASSWORD=password
+$ oc new-app openshift/postgresql-92-centos7 --env-file=postgresql.env
 
 ```
