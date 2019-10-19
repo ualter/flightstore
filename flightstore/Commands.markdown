@@ -27,7 +27,7 @@ $ mvn clean package -Dspring.profiles.active=mac,test -Djasypt.encryptor.passwor
 
 #Dockerfile must be at the same folder
 $ mvn install -Dspring.profiles.active=mac,test  -Djasypt.encryptor.password=***  dockerfile:build
-$ mvn install -Dmaven.test.skip=false dockerfile:build
+$ mvn install -Dmaven.test.skip=true dockerfile:build
 
 #Others
 $ mvn clean package -Dmaven.test.skip=true
