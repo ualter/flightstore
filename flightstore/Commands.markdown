@@ -164,8 +164,36 @@ $ mvn install -Dmaven.test.skip=true dockerfile:build
 ```
 
 Minishift / Openshift / OKD
+
+Opcion Deploy the Local Docker Image into the OpenShift Registry:
+https://docs.okd.io/latest/minishift/openshift/openshift-docker-registry.html
+
+HERE: https://docs.okd.io/latest/dev_guide/application_lifecycle/new_app.html
+
 ```bash
 # Before perform the Config Local Registry
+https://github.com/ualter/flightstore/blob/master/flightstore/dockers/registry/commands-registry.md
+# Enter Minishift VM
+1. $ minishift ssh
+# Config the Minishift DNS to reach the Host Registry
+2. $ sudo vi /etc/hosts
+3. $ <YOU-IP or docker-machine IP>	my-registry
+4. $ ping my-registry (must work)
+# Share the Windows Host Folder with Minishift VM
+5. minishift hostfolder add --interactive
+   ORminishi
+5. minishift hostfolder add -t sshfs --source c:\Users --target /mnt/sda1/myshare myshare
+5. minishift hostfolder mount myshare
+5. minishift hostfolder list
+5. minishift ssh "ls -al /mnt/sda1/myshare"
+5. minishift ssh
+5. sudo cp /mnt/sda1/myshare/docker-registry-certs/domain.crt  my-registry\:5000/ca.crt
 
+
+# 1. Login as Developer
+$ oc login
+
+# 1. Create the Application
+$ oc new-app --docker-image="my-registry:5000/ualter-flightstore-airplane:latest" 
 
 ```

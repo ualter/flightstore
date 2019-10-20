@@ -22,8 +22,10 @@ $ mkdir /etc/docker/certs.d/192.168.99.100:5000/ca.crt
 ###### MacOS
 $ sudo vi /etc/hosts
 localhost	my-registry
+or
+<YOUR-IP>	my-registry
 
-###### Windows
+###### Windows (docker-machine ip)
 192.168.99.100	my-registry
 ```
 
