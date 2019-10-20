@@ -21,14 +21,14 @@ services:
           #REGISTRY_HEALTH_STORAGEDRIVER_ENABLED: false
           
           ## HTTP Basic Authentication for Registry Access
-          #REGISTRY_AUTH: 'htpasswd'
-          #REGISTRY_AUTH_HTPASSWD_REALM: 'docker-ualter'
-          #REGISTRY_AUTH_HTPASSWD_PATH: '/httpasswd_storage/htpasswd'
+          REGISTRY_AUTH: 'htpasswd'
+          REGISTRY_AUTH_HTPASSWD_REALM: 'docker-ualter'
+          REGISTRY_AUTH_HTPASSWD_PATH: '/httpasswd_storage/htpasswd'
         ports:
           - "5000:5000"
         volumes:
           - ${MY_REGISTRY_CERTS}:/certs
-        #  - ${REGISTRY_AUTH_PATH}:/httpasswd_storage          
+          - ${REGISTRY_AUTH_PATH}:/httpasswd_storage          
     registry-frontend:
         image: konradkleine/docker-registry-frontend:v2
         restart: always

@@ -1,6 +1,7 @@
-#Annotations
+FlightStore
 ---
-##Maven
+
+Maven
 ```bash
 
 # Alternative to Set Jasypt Symmetric password Decryption
@@ -33,7 +34,8 @@ $ mvn install -Dmaven.test.skip=true dockerfile:build
 $ mvn clean package -Dmaven.test.skip=true
 ```
 ---
-##Java
+
+Java
 ```bash
 # Start with Windows Profile (application-windows.properties)
 $ java -jar  -Dspring.profiles.active=windows -Djasypt.encryptor.password=**** target/flightstore-airplane-1.0.jar
@@ -45,7 +47,8 @@ $ java -jar  -DMYSQL_IP=localhost -DMYSQL_PORT=4406 -Djasypt.encryptor.password=
 
 ```
 ---
-##Docker
+
+Docker
 ```bash
 # Create Docker Image with DockerFile SpringBoot
 # Dockerfile must be at the same folder
@@ -88,7 +91,8 @@ $ docker ps -a | awk 'NR==2,NR==3 {print $1}' | sed ':a;N;$!ba;s/\n/ /g' | xargs
 $ docker ps -a | awk 'NR==2,NR==3 {print $1}' | sed ':a;N;$!ba;s/\n/ /g' | xargs docker rm
 ```
 ---
-##REST Commands
+
+REST Commands
 ```bash
 $ curl -vsw "\n\n" GET   http://localhost:9180/flightstore-airplane/api/v1/airplanes
 $ curl -vsw "\n\n" GET   http://localhost:9180/flightstore-airplane/api/v1/airplanes/1
@@ -99,6 +103,7 @@ $ curl -s GET http://localhost:9180/flightstore-airplane/api/v1/manufacturers/1 
 $ curl -vsw "\n\n" GET http://localhost:9180/flightstore-airplane/api/v1/manufacturers/2345
 ```
 ---
+
 ##URLs
 - Micros
  - http://localhost:9180/flightstore-airplane/api/v1/airplanes
@@ -106,31 +111,33 @@ $ curl -vsw "\n\n" GET http://localhost:9180/flightstore-airplane/api/v1/manufac
 - API Docs (Swagger Format)
  - http://localhost:9180/flightstore-airplane/swagger-ui.html#/
 
-##Jasypt
-
-###Encrypt Command Line
+Jasypt
 ```bash
+# Encrypt Command Line
 # Before Download Dependency
 mvn dependency:get  -Dartifact=org.jasypt:jasypt:1.9.3
 
 # Then...
 java -cp ~/.m2/repository/org/jasypt/jasypt/1.9.3/jasypt-1.9.3.jar org.jasypt.intf.cli.JasyptPBEStringEncryptionCLI input="Topsecret@123" password=dev-env-secret algorithm=PBEWITHMD5ANDDES
 ```
+---
 
-##Flyway
+Flyway
 ```bash
 # Reparing Broken Versions
 $ mvn flyway:repair -Dflyway.user=*** -Dflyway.password=*** -Dflyway.url=jdbc:mysql://localhost:4406/fs-airplane
 ```
+---
 
-##Redis - Cache
+Redis - Cache
 ```bash
 $ docker exec -it redis-flightstore redis-cli
 127.0.0.1:6379> keys *
 127.0.0.1:6379> get "manufacturers::1"
 ```
+---
 
-##QuickStart (Boot up)
+QuickStart (Boot up)
 ```bash
 #1 Start MySQL Docker
 $ /flightstore/dockers/databases/./start.sh
@@ -154,6 +161,11 @@ $ mvn install -Dmaven.test.skip=true dockerfile:build
      ## Check logs
      $ docker-compose logs -f
      
+```
+
+Minishift / Openshift / OKD
+```bash
+# Before perform the Config Local Registry
 
 
 ```
