@@ -190,10 +190,13 @@ https://github.com/ualter/flightstore/blob/master/flightstore/dockers/registry/c
 5. sudo cp /mnt/sda1/myshare/docker-registry-certs/domain.crt  my-registry\:5000/ca.crt
 
 
-# 1. Login as Developer
+# 6. Login as Developer
 $ oc login
 
-# 1. Create the Application
-$ oc new-app --docker-image="my-registry:5000/ualter-flightstore-airplane:latest" 
+# 7. Create the Secret to Login to the My-Registry (My Docker Local Registry)
+$ oc create secret docker-registry my-registry-secret --docker-server=my-registry:5000 --docker-username=ualter --docker-password=1234 --docker-email=ualter.junior@gmail.com
+
+# 7. Create the Application
+$ oc new-app my-registry:5000/ualter-flightstore-airplane 
 
 ```
