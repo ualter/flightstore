@@ -162,6 +162,7 @@ $ mvn install -Dmaven.test.skip=true dockerfile:build
      $ docker-compose logs -f
      
 ```
+---
 
 Minishift / Openshift / OKD
 
