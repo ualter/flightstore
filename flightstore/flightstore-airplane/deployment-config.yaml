@@ -1,0 +1,42 @@
+kind: DeploymentConfig
+apiVersion: "v1"
+metadata:
+  name: ualter-flightstore-airplane
+  namespace: myproject
+  labels:
+    app: ualter-flightstore-airplane
+spec:
+  replicas: 1
+  selector:
+    app: ualter-flightstore-airplane
+    deploymentconfig: ualter-flightstore-airplane
+  strategy:
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling  
+
+  template: 
+    metadata:
+      labels:
+        app: ualter-flightstore-airplane
+        deploymentconfig: ualter-flightstore-airplane
+    spec:
+      containers:
+        - image: 'my-registry:5000/ualter-flightstore-airplane:latest'
+          imagePullPolicy: Always
+          name: ualter-flightstore-airplane
+          volumeMounts:
+            - mountPath: /tmp
+              name: ualter-flightstore-airplane-volume-1
+      imagePullSecrets:
+        - name: my-registry-secret
+      restartPolicy: Always
+      volumes:
+        - emptyDir: {}
+          name: ualter-flightstore-airplane-volume-1      
+  triggers:
+    - type: "ConfigChange"

@@ -171,7 +171,8 @@ https://docs.okd.io/latest/minishift/openshift/openshift-docker-registry.html
 HERE: https://docs.okd.io/latest/dev_guide/application_lifecycle/new_app.html
 
 ```bash
-# Before perform the Config Local Registry
+# Before start the Deployment on Minishift
+# Must be performed the Config with the Docker Local Registry
 https://github.com/ualter/flightstore/blob/master/flightstore/dockers/registry/commands-registry.md
 # Enter Minishift VM
 1. $ minishift ssh
@@ -181,7 +182,7 @@ https://github.com/ualter/flightstore/blob/master/flightstore/dockers/registry/c
 4. $ ping my-registry (must work)
 # Share the Windows Host Folder with Minishift VM
 5. minishift hostfolder add --interactive
-   ORminishi
+   OR
 5. minishift hostfolder add -t sshfs --source c:\Users --target /mnt/sda1/myshare myshare
 5. minishift hostfolder mount myshare
 5. minishift hostfolder list
@@ -189,14 +190,13 @@ https://github.com/ualter/flightstore/blob/master/flightstore/dockers/registry/c
 5. minishift ssh
 5. sudo cp /mnt/sda1/myshare/docker-registry-certs/domain.crt  my-registry\:5000/ca.crt
 
-
 # 6. Login as Developer
 $ oc login
 
-# 7. Create the Secret to Login to the My-Registry (My Docker Local Registry)
+# 7. Create the Secret to Authenticate to my My-Registry (My Docker Local Registry)
 $ oc create secret docker-registry my-registry-secret --docker-server=my-registry:5000 --docker-username=ualter --docker-password=1234 --docker-email=ualter.junior@gmail.com
 
-# 7. Create the Application
-$ oc new-app my-registry:5000/ualter-flightstore-airplane 
+# 8. Create the Application
+$ oc new-app --source-secret=my-registry-secret --docker-image=my-registry:5000/ualter-flightstore-airplane
 
-```
+``
