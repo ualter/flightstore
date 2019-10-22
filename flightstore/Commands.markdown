@@ -104,12 +104,12 @@ $ curl -vsw "\n\n" GET http://localhost:9180/flightstore-airplane/api/v1/manufac
 ```
 ---
 
-##URLs
+URLs
 - Micros
- - http://localhost:9180/flightstore-airplane/api/v1/airplanes
- - http://localhost:9180/flightstore-airplane/api/v1/manufacturers
+ -- http://localhost:9180/flightstore-airplane/api/v1/airplanes
+ -- http://localhost:9180/flightstore-airplane/api/v1/manufacturers
 - API Docs (Swagger Format)
- - http://localhost:9180/flightstore-airplane/swagger-ui.html#/
+ -- http://localhost:9180/flightstore-airplane/swagger-ui.html#/
 
 Jasypt
 ```bash
