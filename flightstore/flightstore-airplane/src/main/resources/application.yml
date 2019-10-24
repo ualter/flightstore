@@ -69,6 +69,16 @@ redis-cache:  host: "192.168.99.100"
 ---
 
 spring:
+  profiles: minishift
+mysql:
+  ip: 10.253.163.97
+  port: 4406
+redis-cache:
+  host: "10.253.163.97"  
+  
+---
+
+spring:
   profiles: test
   flyway:
     enabled: false
@@ -77,4 +87,7 @@ spring:
       ddl-auto: create
   main:
     allow-bean-definition-overriding: true      
+    
+
+    
     

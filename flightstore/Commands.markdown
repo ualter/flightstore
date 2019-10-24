@@ -26,9 +26,16 @@ $ mvn clean package -Dspring.profiles.active=mac,test  -Dintegration-tests=true 
 # Package running Test WITHOUT Integration Tests
 $ mvn clean package -Dspring.profiles.active=mac,test -Djasypt.encryptor.password=***
 
-#Dockerfile must be at the same folder
+# Create the Microservice's Docker Image
+# Dockerfile must be at the same folder
 $ mvn install -Dspring.profiles.active=mac,test  -Djasypt.encryptor.password=***  dockerfile:build
 $ mvn install -Dmaven.test.skip=true dockerfile:build
+# Publish to the Local Registry
+$ $ docker tag ualter/flightstore-airplane:latest my-registry:5000/ualter-flightstore-airplane
+$ docker push my-registry:5000/ualter-flightstore-airplane
+# Query the Image published
+$ curl -u ualter:1234 -k -sX GET https://my-registry:5000/v2/_catalog | jq .
+$ curl -u ualter:1234 -k -sX GET https://my-registry:5000/v2/ualter-flightstore-airplane/tags/list | jq .
 
 #Others
 $ mvn clean package -Dmaven.test.skip=true
@@ -194,6 +201,11 @@ $ oc login
 $ oc create secret docker-registry my-registry-secret --docker-server=my-registry:5000 --docker-username=ualter --docker-password=1234 --docker-email=ualter.junior@gmail.com
 
 # 8. Create the Application
-$ oc new-app --source-secret=my-registry-secret --docker-image=my-registry:5000/ualter-flightstore-airplane
+$ oc create -f openshift-deployment-configuration.yaml
 
-``
+$ oc create secret generic jasypt-encryptor --type=Opaque --from-literal=encryptor-password=***
+
+OR
+# (NOT WORKING: The secret is not configured correctly, doesn't work, link with service account was attempted)
+$ oc new-app --source-secret=my-registry-secret --docker-image=my-registry:5000/ualter-flightstore-airplane
+```

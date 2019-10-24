@@ -28,7 +28,7 @@ services:
           - "5000:5000"
         volumes:
           - ${MY_REGISTRY_CERTS}:/certs
-          - ${REGISTRY_AUTH_PATH}:/httpasswd_storage          
+          - ${REGISTRY_AUTH_PATH}:/httpasswd_storage
     registry-frontend:
         image: konradkleine/docker-registry-frontend:v2
         restart: always
@@ -36,7 +36,7 @@ services:
           ENV_DOCKER_REGISTRY_HOST: 'registry'
           ENV_DOCKER_REGISTRY_PORT: 5000
           ENV_DOCKER_REGISTRY_USE_SSL: 1
-        links:
+        links: 
           - registry
         ports:
           - "8080:80"
