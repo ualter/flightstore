@@ -31,11 +31,13 @@ $ mvn clean package -Dspring.profiles.active=mac,test -Djasypt.encryptor.passwor
 $ mvn install -Dspring.profiles.active=mac,test  -Djasypt.encryptor.password=***  dockerfile:build
 $ mvn install -Dmaven.test.skip=true dockerfile:build
 # Publish to the Local Registry
-$ $ docker tag ualter/flightstore-airplane:latest my-registry:5000/ualter-flightstore-airplane
+$ docker tag ualter/flightstore-airplane:latest my-registry:5000/ualter-flightstore-airplane
 $ docker push my-registry:5000/ualter-flightstore-airplane
 # Query the Image published
 $ curl -u ualter:1234 -k -sX GET https://my-registry:5000/v2/_catalog | jq .
 $ curl -u ualter:1234 -k -sX GET https://my-registry:5000/v2/ualter-flightstore-airplane/tags/list | jq .
+
+
 
 #Others
 $ mvn clean package -Dmaven.test.skip=true
@@ -171,7 +173,7 @@ $ mvn install -Dmaven.test.skip=true dockerfile:build
 ```
 ---
 
-Minishift / Openshift / OKD
+Running on Minishift / Openshift / OKD
 
 ```bash
 # Before start the Deployment on Minishift
@@ -186,13 +188,15 @@ https://github.com/ualter/flightstore/blob/master/flightstore/dockers/registry/c
    $ <YOU-IP or docker-machine IP>	my-registry
    $ ping my-registry (must work)
 
-# Share the Windows Host Folder with Minishift VM
+# Share the Windows Host Folder with Minishift VM (For the copy of the Local Registry Certificate to Minishift in order to work the Image Pull later on)
 5. $ minishift hostfolder add -t sshfs --source c:\Users --target /mnt/sda1/myshare myshare
    $ minishift hostfolder mount myshare
    $ minishift hostfolder list
    $ minishift ssh "ls -al /mnt/sda1/myshare"
    $ minishift ssh
-   $ sudo cp /mnt/sda1/myshare/docker-registry-certs/domain.crt  my-registry\:5000/ca.crt
+   $ cd /etc/docker/certs.d/
+   $ mkdir my-registry:5000
+   $ sudo cp /mnt/sda1/myshare/docker-registry-certs/domain.crt  /etc/docker/certs.d/my-registry\:5000/ca.crt
 
 # 6. Login as Developer
 $ oc login
@@ -200,12 +204,36 @@ $ oc login
 # 7. Create the Secret to Authenticate to my My-Registry (My Docker Local Registry)
 $ oc create secret docker-registry my-registry-secret --docker-server=my-registry:5000 --docker-username=ualter --docker-password=1234 --docker-email=ualter.junior@gmail.com
 
-# 8. Create the Application
+# 8. Create the Secret for the Jasypt Password Decryptor
+$ oc create secret generic jasypt-encryptor --type=Opaque --from-literal=encryptor-password=****
+
+# 9. Create the Application (Deployment Configuration)
 $ oc create -f openshift-deployment-configuration.yaml
 
-$ oc create secret generic jasypt-encryptor --type=Opaque --from-literal=encryptor-password=***
+# 10. (Wait for the Pod to get up and running and then...) Create the Service for the Pods (Port 80)
+$ oc create -f openshift-service.yaml
+# To test inside the Minishift Cluster (without the Router)
+$ oc get svc/ualter-flightstore-airplane  #Take the note the Cluster IP
+$ minishift ssh
+$ $ curl  -X GET http://<CLUSTER IP>/flightstore-airplane/api/v1/manufacturers/
 
+# 11. Router (Expose the service to the Host, reachable outside the Cluster)
+$ oc expose svc/ualter-flightstore-airplane
 OR
-# (NOT WORKING: The secret is not configured correctly, doesn't work, link with service account was attempted)
-$ oc new-app --source-secret=my-registry-secret --docker-image=my-registry:5000/ualter-flightstore-airplane
+$ oc expose svc/ualter-flightstore-airplane --hostname=www.example.com
+# Get the Route URL created by Openshift
+$ url=$(oc get route ualter-flightstore-airplane | awk 'FNR == 2 {print $2}')
+$ echo $url
+$ ping $url
+$ curl -sX GET http://$url/flightstore-airplane/api/v1/manufacturers/ | jq .
+
+
+# (NOT WORKING: The secret is not configured correctly, neither the enviroment variables with this command.)
+# $ oc new-app --source-secret=my-registry-secret --docker-image=my-# registry:5000/ualter-flightstore-airplane
+
+
+
+# To clean all
+$ oc delete svc/ualter-flightstore-airplane
+$ oc delete dc/ualter-flightstore-airplane
 ```

@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: ualter-flightstore-airplane
+    name: ualter-flightstore-airplane
+  name: ualter-flightstore-airplane
+  namespace: myproject
+spec:
+  selector:
+    app: ualter-flightstore-airplane
+    deploymentconfig: ualter-flightstore-airplane
+  ports:
+    - name: 9180-tcp
+      port: 80
+      protocol: TCP
+      targetPort: 9180
