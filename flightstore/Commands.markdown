@@ -218,6 +218,13 @@ $ oc create secret docker-registry my-registry-secret --docker-server=my-registr
 $ oc create secret generic jasypt-encryptor --type=Opaque --from-literal=encryptor-password=****
 
 # 9. Create the Application (Deployment Configuration)
+### 9.1 - Create the ConfigMap of the application.yaml 
+$ oc create configmap flightstore-airplane --from-file=src/main/resources/application.yml
+### 9.2 - If not done yet!
+### Give read permissions for the ConfigMap(and other stuffs) to the ServiceAcccount - in order that the Pod can access/read de the ConfigMaps
+$ oc create role namespacereader --verb=get,list,watch --resource=configmaps,pods,services,endpoints,secrets -n myproject
+$ oc create rolebinding namespace-reader-binding --role=namespacereader --serviceaccount=myproject:default --namespace=myproject
+### 9.3 And then, deploy it...
 $ oc create -f openshift-deployment-configuration.yaml
 
 # 10. (Wait for the Pod to get up and running and then...) Create the Service for the Pods (Port 80)
@@ -242,19 +249,4 @@ $ curl -sX GET http://$url/flightstore-airplane/api/v1/manufacturers/ | jq .
 # To clean all
 $ oc delete svc/ualter-flightstore-airplane
 $ oc delete dc/ualter-flightstore-airplane
-```
-
-## Running with ConfigMaps
-```bash
-# Create the ConfigMap of the application.yaml 
-$ oc create configmap flightstore-airplane --from-file=src/main/resources/application.yml
-
-# Give read permissions for the ConfigMap(and other stuffs) to the ServiceAcccount - in order that the Pod can access de the ConfigMaps
-$ oc create role namespacereader --verb=get,list,watch --resource=configmaps,pods,services,endpoints,secrets -n myproject
-
-$ oc create rolebinding namespace-reader-binding --role=namespacereader --serviceaccount=myproject:default --namespace=myproject
-
-# and then...
-# deploy it...
-$ oc create -f openshift-deployment-configuration.yaml
 ```
