@@ -247,7 +247,7 @@ $ oc delete dc/ualter-flightstore-airplane
 ## Running with ConfigMaps
 ```bash
 # Create the ConfigMap of the application.yaml 
-$ oc create -f openshift-configmap.yaml
+$ oc create configmap flightstore-airplane --from-file=src/main/resources/application.yml
 
 # Give read permissions for the ConfigMap(and other stuffs) to the ServiceAcccount - in order that the Pod can access de the ConfigMaps
 $ oc create role namespacereader --verb=get,list,watch --resource=configmaps,pods,services,endpoints,secrets -n myproject
