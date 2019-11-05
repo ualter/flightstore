@@ -230,23 +230,24 @@ $ oc create -f openshift-deployment-configuration.yaml
 # 10. (Wait for the Pod to get up and running and then...) Create the Service for the Pods (Port 80)
 $ oc create -f openshift-service.yaml
 ## To test inside the Minishift Cluster (without the Router)
-$ oc get svc/ualter-flightstore-airplane  (#Take a note of the Cluster IP)
+$ oc get svc/flightstore-airplane  (#Take a note of the Cluster IP)
 $ minishift ssh
 $ $ curl  -X GET http:///flightstore-airplane/api/v1/manufacturers/
 OR Direct (no need to enter the VM)
 $ minishift ssh -- curl  -sX GET http://<CLUSTER IP>/flightstore-airplane/api/v1/manufacturers/ | jq .
 
 # 11. Router (Expose the service to the Host, reachable outside the Cluster)
-$ oc expose svc/ualter-flightstore-airplane
+$ oc expose svc/flightstore-airplane
 OR
-$ oc expose svc/ualter-flightstore-airplane --hostname=www.example.com
+$ oc expose svc/flightstore-airplane --hostname=www.example.com
 ## Get the Route URL created by Openshift
-$ url=$(oc get route ualter-flightstore-airplane | awk 'FNR == 2 {print $2}')
+$ url=$(oc get route flightstore-airplane | awk 'FNR == 2 {print $2}')
 $ echo $url
 $ ping $url
 $ curl -sX GET http://$url/flightstore-airplane/api/v1/manufacturers/ | jq .
 
 # To clean all
-$ oc delete svc/ualter-flightstore-airplane
-$ oc delete dc/ualter-flightstore-airplane
+$ oc delete svc/flightstore-airplane
+$ oc delete dc/flightstore-airplane
+$ oc delete configmaps/flightstore-airplane
 ```
