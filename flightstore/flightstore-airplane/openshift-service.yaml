@@ -2,14 +2,14 @@ kind: Service
 apiVersion: v1
 metadata:
   labels:
-    app: ualter-flightstore-airplane
-    name: ualter-flightstore-airplane
-  name: ualter-flightstore-airplane
+    app: flightstore-airplane
+    name: flightstore-airplane
+  name: flightstore-airplane
   namespace: myproject
 spec:
   selector:
-    app: ualter-flightstore-airplane
-    deploymentconfig: ualter-flightstore-airplane
+    app: flightstore-airplane
+    deploymentconfig: flightstore-airplane
   ports:
     - name: 9180-tcp
       port: 80

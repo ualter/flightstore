@@ -1,16 +1,16 @@
 kind: DeploymentConfig
 apiVersion: "v1"
 metadata:
-  name: ualter-flightstore-airplane
+  name: flightstore-airplane
   namespace: myproject
   labels:
-    app: ualter-flightstore-airplane
-    name: ualter-flightstore-airplane
+    app: flightstore-airplane
+    name: flightstore-airplane
 spec:
   replicas: 1
   selector:
-    app: ualter-flightstore-airplane
-    deploymentconfig: ualter-flightstore-airplane
+    app: flightstore-airplane
+    deploymentconfig: flightstore-airplane
   strategy:
     rollingParams:
       intervalSeconds: 1
@@ -22,8 +22,8 @@ spec:
   template: 
     metadata:
       labels:
-        app: ualter-flightstore-airplane
-        deploymentconfig: ualter-flightstore-airplane
+        app: flightstore-airplane
+        deploymentconfig: flightstore-airplane
     spec:
       containers:
         - env:
@@ -42,13 +42,18 @@ spec:
           terminationMessagePolicy: File
           volumeMounts:
             - mountPath: /tmp
-              name: ualter-flightstore-airplane-volume-1
+              name: flightstore-airplane-volume-1
+          #  - mountPath: /etc/config
+          #    name: configmap-flightstore-airplane   
       imagePullSecrets:
         - name: my-registry-secret
       restartPolicy: Always
       volumes:
         - emptyDir: {}
-          name: ualter-flightstore-airplane-volume-1      
+          name: flightstore-airplane-volume-1
+        #- name: configmap-flightstore-airplane
+        #  configMap:
+        #    name: flightstore-airplane        
   triggers:
     - type: "ConfigChange"
     

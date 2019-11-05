@@ -1,0 +1,5 @@
+mvn install -Dmaven.test.skip=true dockerfile:build
+docker tag ualter/flightstore-airplane:latest my-registry:5000/ualter-flightstore-airplane
+docker push my-registry:5000/ualter-flightstore-airplane
+oc create -f openshift-deployment-configuration.yaml
+oc logs -f dc/flightstore-airplane

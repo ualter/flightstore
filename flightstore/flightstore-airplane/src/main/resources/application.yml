@@ -4,6 +4,9 @@ server:
     context-path: /flightstore-airplane
     
 management:
+  endpoint:
+    refresh:
+      enabled: true          
   endpoints:
     web:
       exposure:
@@ -13,81 +16,88 @@ spring:
   application:
     name: flightstore-airplane
   profiles:
-    active: "mac"  
-  datasource:
-    driver-class-name: "com.mysql.cj.jdbc.Driver"
-    url: "jdbc:mysql://${mysql.ip:#{'Ops...'}}:${mysql.port:#{'9999'}}/fs-airplane?allowPublicKeyRetrieval=true&nullNamePatternMatchesAll=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC"
-    username: "flightuser"
-    password: ENC(nRcqiSTxY46XWZLZmiRarw==)
-  flyway:
-    user: root
-    password: ENC(6vNa9VG617d+i1FP5RMVIg==)
-    placeholders:
-     userpass: ENC(nRcqiSTxY46XWZLZmiRarw==)  
-  jpa:
-    hibernate:
-        # none, validate, update, create, and create-drop
-        ddl-auto: "validate"
-  #cache:
-  #  redis:
-  #    time-to-live: 120000 #two minutes of caching
-  #redis:
-  #  host: "127.0.0.1"
-  #  port: 6379
+    active: "mac"
+  # For Kubernetes ConfigMaps  
+  cloud:
+    kubernetes:
+      config:
+        name: flightstore-airplane
+        namespace: myproject
+        sources:
+        - name: flightstore-airplane
+      reload:
+        enabled: true
+        mode: polling
+        period: 10000
+             
+  #datasource:
+  #  driver-class-name: "com.mysql.cj.jdbc.Driver"
+  #  url: "jdbc:mysql://${mysql.ip:#{'Ops...'}}:${mysql.port:#{'9999'}}/fs-airplane?allowPublicKeyRetrieval=true&nullNamePatternMatchesAll=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC"
+  #  username: "flightuser"
+  #  password: ENC(nRcqiSTxY46XWZLZmiRarw==)
+  #flyway:
+  #  user: root
+  #  password: ENC(6vNa9VG617d+i1FP5RMVIg==)
+  #  placeholders:
+  #   userpass: ENC(nRcqiSTxY46XWZLZmiRarw==)  
+  #jpa:
+  #  hibernate:
+  #      # none, validate, update, create, and create-drop
+  #      ddl-auto: "validate"
 
-redis-cache:
-  host: "127.0.0.1"
-  port: 6379
-  caches-specifications:
-    AIRPLANES:
-      timeout: 10
-    MANUFACTURERS:
-      timeout: 20
+#redis-cache:
+#  host: "127.0.0.1"
+#  port: 6379
+#  caches-specifications:
+#    AIRPLANES:
+#      timeout: 10
+#    MANUFACTURERS:
+#      timeout: 20
       
-logging:
-  level:
-     root: INFO
-     ujr.flightstore.*: INFO
+#logging:
+#  level:
+#     root: INFO
+#     ujr.flightstore.*: INFO
 
----
-
-spring:
-  profiles: mac
-mysql:
-  ip: 127.0.0.1
-  port: 4406
-       
----
-
-spring:
-  profiles: windows
-mysql:
-  ip: 192.168.99.100
-  port: 4406
-redis-cache:  host: "192.168.99.100"
-  
----
-
-spring:
-  profiles: minishift
-mysql:
-  ip: 10.253.163.97
-  port: 4406
-redis-cache:
-  host: "10.253.163.97"  
-  
----
-
-spring:
-  profiles: test
-  flyway:
-    enabled: false
-  jpa:
-    hibernate:
-      ddl-auto: create
-  main:
-    allow-bean-definition-overriding: true      
-    
-
-    
-    
+#---
+#
+#spring:
+#  profiles: mac
+#mysql:
+#  ip: 127.0.0.1
+#  port: 4406
+#       
+#---
+#
+#spring:
+#  profiles: windows
+#mysql:
+#  ip: 192.168.99.100
+#  port: 4406
+#redis-cache:#  host: "192.168.99.100"
+#  
+#---
+#
+#spring:
+#  profiles: minishift
+#mysql:
+#  ip: 10.253.163.97
+#  port: 4406
+#redis-cache:
+#  host: "10.253.163.97"  
+#  
+#---
+#
+#spring:
+#  profiles: test
+#  flyway:
+#    enabled: false
+#  jpa:
+#    hibernate:
+#      ddl-auto: create
+#  main:
+#    allow-bean-definition-overriding: true      
+#    
+#
+#    
+#    
