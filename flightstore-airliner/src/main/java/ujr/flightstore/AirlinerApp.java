@@ -1,4 +1,4 @@
-package ujr.flightstore.airplane;
+package ujr.flightstore.airliner;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,7 +15,7 @@ import ujr.flightstore.config.MysqlConfigProperties;
 @ComponentScan(basePackages = "ujr.flightstore")
 @EnableEncryptableProperties
 @EnableConfigurationProperties({MysqlConfigProperties.class, CacheConfigProperties.class})
-public class AirplaneApp 
+public class AirlinerApp 
 {
     public static void main( String[] args )
     {
@@ -30,7 +30,7 @@ public class AirplaneApp
     		}
         }
     	
-        SpringApplication.run(AirplaneApp.class);
+        SpringApplication.run(AirlinerApp.class);
     }
     
 }

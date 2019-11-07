@@ -1,8 +1,10 @@
+#set( $capital = $microService.toUpperCase() )
+
 spring:             
   datasource:
     driver-class-name: "com.mysql.cj.jdbc.Driver"
-    url: "jdbc:mysql://${mysql.ip:#{'Ops...'}}:${mysql.port:#{'9999'}}/fs-airplane?allowPublicKeyRetrieval=true&nullNamePatternMatchesAll=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC"
-    username: "flightuser"
+    url: "jdbc:mysql://${mysql.ip}:${mysql.port}/fs-${microService}?allowPublicKeyRetrieval=true&nullNamePatternMatchesAll=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC"
+    username: "user"
     password: ENC(nRcqiSTxY46XWZLZmiRarw==)
   flyway:
     user: root
@@ -18,9 +20,7 @@ redis-cache:
   host: "127.0.0.1"
   port: 6379
   caches-specifications:
-    AIRPLANES:
-      timeout: 10
-    MANUFACTURERS:
+    ${capital}:
       timeout: 20
       
 logging:

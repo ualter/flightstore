@@ -1,23 +1,32 @@
 FlightStore
 ---
 
-Maven
+#Maven
+
+#### Alternative (env variable) to set Jasypt Symmetric password Decryption
 ```bash
-
-# Alternative to Set Jasypt Symmetric password Decryption
 export JASYPT_ENCRYPTOR_PASSWORD=***
+```
 
-### Send JASYPT arguments if not working the default mode  (Workaround)
+#### Run sending JASYPT arguments if not working the default mode  (Workaround)
+```bash
 $ mvn spring-boot:run -Dspring-boot.run.arguments=jasypt.encryptor.password=***
 $ mvn spring-boot:run -Dspring-boot.run.arguments=spring.profiles.active=windows,jasypt.encryptor.password=***
+```
 
-# Start SpringBoot
-## Default Profile (Mac)
+#### Default Profile (Mac)
+```bash
 $ mvn spring-boot:run -Djasypt.encryptor.password=**** -V
-## Windows Profile
+
+# Windows Profile
 $ mvn spring-boot:run -Dspring.profiles.active=windows -Djasypt.encryptor.password=**** -V
 
-# Debug SpringBoot
+# Others Commands
+$ mvn clean package -Dmaven.test.skip=true
+```
+
+#### Debug SpringBoot
+```bash
 $ mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005 -Dspring.profiles.active=mac -Djasypt.encryptor.password=***"
 
 # Package running Test WITH Integration Tests
@@ -25,39 +34,30 @@ $ mvn clean package -Dspring.profiles.active=mac,test  -Dintegration-tests=true 
 
 # Package running Test WITHOUT Integration Tests
 $ mvn clean package -Dspring.profiles.active=mac,test -Djasypt.encryptor.password=***
+```
 
-# Create the Microservice's Docker Image
-# Dockerfile must be at the same folder
+#### Create the Microservice's Docker Image
+```bash
+# Dockerfile must exist at the same folder
 $ mvn install -Dspring.profiles.active=mac,test  -Djasypt.encryptor.password=***  dockerfile:build
 $ mvn install -Dmaven.test.skip=true dockerfile:build
-# Publish to the Local Registry
-$ docker tag ualter/flightstore-airplane:latest my-registry:5000/ualter-flightstore-airplane
-$ docker push my-registry:5000/ualter-flightstore-airplane
-# Query the Image published
-$ curl -u ualter:1234 -k -sX GET https://my-registry:5000/v2/_catalog | jq .
-$ curl -u ualter:1234 -k -sX GET https://my-registry:5000/v2/ualter-flightstore-airplane/tags/list | jq .
-
-
-
-#Others
-$ mvn clean package -Dmaven.test.skip=true
 ```
 ---
-
-Java
-```bash
+#Other Comnands
+```
 # Start with Windows Profile (application-windows.properties)
 $ java -jar  -Dspring.profiles.active=windows -Djasypt.encryptor.password=**** target/flightstore-airplane-1.0.jar
 
 # Start with Environment Variables
 $ java -jar  -DMYSQL_IP=localhost -DMYSQL_PORT=4406 -Djasypt.encryptor.password=**** -Dspring.flyway.placeholders.userpass=**** -Dspring.flyway.user=root -Dspring.flyway.password=**** target/flightstore-airplane-1.0.jar
+
 # With No Flyway Variables (Content at YAML encrypted)
 $ java -jar  -DMYSQL_IP=localhost -DMYSQL_PORT=4406 -Djasypt.encryptor.password=**** target/flightstore-airplane-1.0.jar
 
 ```
 ---
 
-Docker
+#Docker
 ```bash
 # Create Docker Image with DockerFile SpringBoot
 # Dockerfile must be at the same folder
@@ -99,9 +99,19 @@ $ docker ps -a | awk 'NR==2,NR==3 {print $1}' | sed ':a;N;$!ba;s/\n/ /g' | xargs
 # Remove all Docker Container IDs in Sequence (remove breaklines)
 $ docker ps -a | awk 'NR==2,NR==3 {print $1}' | sed ':a;N;$!ba;s/\n/ /g' | xargs docker rm
 ```
+#### Publish to the Local Registry
+```bash
+$ docker tag ualter/flightstore-airplane:latest my-registry:5000/ualter-flightstore-airplane
+$ docker push my-registry:5000/ualter-flightstore-airplane
+```
+#### Query the Image published
+```bash
+$ curl -u ualter:1234 -k -sX GET https://my-registry:5000/v2/_catalog | jq .
+$ curl -u ualter:1234 -k -sX GET https://my-registry:5000/v2/ualter-flightstore-airplane/tags/list | jq .
+```
 ---
 
-REST Commands
+#REST Commands
 ```bash
 $ curl -vsw "\n\n" GET   http://localhost:9180/flightstore-airplane/api/v1/airplanes
 $ curl -vsw "\n\n" GET   http://localhost:9180/flightstore-airplane/api/v1/airplanes/1
@@ -113,14 +123,13 @@ $ curl -vsw "\n\n" GET http://localhost:9180/flightstore-airplane/api/v1/manufac
 ```
 ---
 
-URLs
-- Micros
+#URLs
+### Micros
 - http://localhost:9180/flightstore-airplane/api/v1/airplanes
 - http://localhost:9180/flightstore-airplane/api/v1/manufacturers
-- API Docs (Swagger Format)
-- http://localhost:9180/flightstore-airplane/swagger-ui.html#/
+- (API Docs - Swagger Format) http://localhost:9180/flightstore-airplane/swagger-ui.html#/ 
 
-Jasypt
+#Jasypt
 ```bash
 # Encrypt Command Line
 # Before Download Dependency
@@ -131,14 +140,14 @@ java -cp ~/.m2/repository/org/jasypt/jasypt/1.9.3/jasypt-1.9.3.jar org.jasypt.in
 ```
 ---
 
-Flyway
+#Flyway
 ```bash
 # Reparing Broken Versions
 $ mvn flyway:repair -Dflyway.user=*** -Dflyway.password=*** -Dflyway.url=jdbc:mysql://localhost:4406/fs-airplane
 ```
 ---
 
-Redis - Cache
+#Redis - Cache
 ```bash
 $ docker exec -it redis-flightstore redis-cli
 127.0.0.1:6379> keys *
@@ -146,7 +155,7 @@ $ docker exec -it redis-flightstore redis-cli
 ```
 ---
 
-QuickStart (Boot up)
+#QuickStart (Boot up)
 ```bash
 #1 Start MySQL Docker
 $ /flightstore/dockers/databases/./start.sh
@@ -173,7 +182,8 @@ $ mvn install -Dmaven.test.skip=true dockerfile:build
 ```
 ---
 
-Running on Minishift / Openshift / OKD
+#Running on...
+#Minishift / Openshift / Kubernetes
 
 ```bash
 # Before start the Deployment on Minishift
@@ -208,32 +218,36 @@ $ oc create secret docker-registry my-registry-secret --docker-server=my-registr
 $ oc create secret generic jasypt-encryptor --type=Opaque --from-literal=encryptor-password=****
 
 # 9. Create the Application (Deployment Configuration)
+### 9.1 - Create the ConfigMap of the application.yaml 
+$ oc create configmap flightstore-airplane --from-file=src/main/resources/application.yml
+### 9.2 - If not done yet!
+### Give read permissions for the ConfigMap(and other stuffs) to the ServiceAcccount - in order that the Pod can access/read de the ConfigMaps
+$ oc create role namespacereader --verb=get,list,watch --resource=configmaps,pods,services,endpoints,secrets -n myproject
+$ oc create rolebinding namespace-reader-binding --role=namespacereader --serviceaccount=myproject:default --namespace=myproject
+### 9.3 And then, deploy it...
 $ oc create -f openshift-deployment-configuration.yaml
 
 # 10. (Wait for the Pod to get up and running and then...) Create the Service for the Pods (Port 80)
 $ oc create -f openshift-service.yaml
-# To test inside the Minishift Cluster (without the Router)
-$ oc get svc/ualter-flightstore-airplane  #Take the note the Cluster IP
+## To test inside the Minishift Cluster (without the Router)
+$ oc get svc/flightstore-airplane  (#Take a note of the Cluster IP)
 $ minishift ssh
-$ $ curl  -X GET http://<CLUSTER IP>/flightstore-airplane/api/v1/manufacturers/
+$ $ curl  -X GET http:///flightstore-airplane/api/v1/manufacturers/
+OR Direct (no need to enter the VM)
+$ minishift ssh -- curl  -sX GET http://<CLUSTER IP>/flightstore-airplane/api/v1/manufacturers/ | jq .
 
 # 11. Router (Expose the service to the Host, reachable outside the Cluster)
-$ oc expose svc/ualter-flightstore-airplane
+$ oc expose svc/flightstore-airplane
 OR
-$ oc expose svc/ualter-flightstore-airplane --hostname=www.example.com
-# Get the Route URL created by Openshift
-$ url=$(oc get route ualter-flightstore-airplane | awk 'FNR == 2 {print $2}')
+$ oc expose svc/flightstore-airplane --hostname=www.example.com
+## Get the Route URL created by Openshift
+$ url=$(oc get route flightstore-airplane | awk 'FNR == 2 {print $2}')
 $ echo $url
 $ ping $url
 $ curl -sX GET http://$url/flightstore-airplane/api/v1/manufacturers/ | jq .
 
-
-# (NOT WORKING: The secret is not configured correctly, neither the enviroment variables with this command.)
-# $ oc new-app --source-secret=my-registry-secret --docker-image=my-# registry:5000/ualter-flightstore-airplane
-
-
-
 # To clean all
-$ oc delete svc/ualter-flightstore-airplane
-$ oc delete dc/ualter-flightstore-airplane
+$ oc delete svc/flightstore-airplane
+$ oc delete dc/flightstore-airplane
+$ oc delete configmaps/flightstore-airplane
 ```

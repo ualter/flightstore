@@ -1,0 +1,31 @@
+server:
+  port: 9180
+  servlet:
+    context-path: /flightstore-airplane
+    
+management:
+  endpoint:
+    refresh:
+      enabled: true          
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        
+spring:
+  application:
+    name: flightstore-airplane
+  profiles:
+    active: "mac"
+  # For Kubernetes ConfigMaps  
+  cloud:
+    kubernetes:
+      config:
+        name: flightstore-airplane
+        namespace: myproject
+        sources:
+        - name: flightstore-airplane
+      reload:
+        enabled: true
+        mode: polling
+        period: 10000

@@ -1,16 +1,16 @@
 kind: DeploymentConfig
 apiVersion: "v1"
 metadata:
-  name: flightstore-airplane
+  name: flightstore-airliner
   namespace: myproject
   labels:
-    app: flightstore-airplane
-    name: flightstore-airplane
+    app: flightstore-airliner
+    name: flightstore-airliner
 spec:
   replicas: 1
   selector:
-    app: flightstore-airplane
-    deploymentconfig: flightstore-airplane
+    app: flightstore-airliner
+    deploymentconfig: flightstore-airliner
   strategy:
     rollingParams:
       intervalSeconds: 1
@@ -22,8 +22,8 @@ spec:
   template: 
     metadata:
       labels:
-        app: flightstore-airplane
-        deploymentconfig: flightstore-airplane
+        app: flightstore-airliner
+        deploymentconfig: flightstore-airliner
     spec:
       containers:
         - env:
@@ -34,26 +34,21 @@ spec:
                   name: jasypt-encryptor
             - name: SPRING_PROFILES_ACTIVE
               value: minishift
-          image: 'my-registry:5000/ualter-flightstore-airplane:latest'
+          image: 'my-registry:5000/ualter-flightstore-airliner:latest'
           imagePullPolicy: Always
-          name: ualter-flightstore-airplane
+          name: ualter-flightstore-airliner
           resources: {}
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           volumeMounts:
             - mountPath: /tmp
-              name: flightstore-airplane-volume-1
-          #  - mountPath: /etc/config
-          #    name: configmap-flightstore-airplane   
+              name: flightstore-airliner-volume-1
       imagePullSecrets:
         - name: my-registry-secret
       restartPolicy: Always
       volumes:
         - emptyDir: {}
-          name: flightstore-airplane-volume-1
-        #- name: configmap-flightstore-airplane
-        #  configMap:
-        #    name: flightstore-airplane        
+          name: flightstore-airliner-volume-1
   triggers:
     - type: "ConfigChange"
     

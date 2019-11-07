@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor name="basic">
+
+	<requiredProperties>
+        <requiredProperty key="archetypeVersion">
+            <defaultValue>1.0</defaultValue>
+        </requiredProperty>
+		<requiredProperty key="groupId">
+			<defaultValue>ujr.flightstore</defaultValue>
+		</requiredProperty>
+		<requiredProperty key="artifactId" />
+		<requiredProperty key="microService"/>
+		
+		<requiredProperty key="a_temp">
+		   <defaultValue>${microService.substring(0,1).toUpperCase()}</defaultValue>
+		</requiredProperty>
+		<requiredProperty key="b_temp">
+		   <defaultValue>${microService.substring(1)}</defaultValue>
+		</requiredProperty>
+		<requiredProperty key="XMicroServicePascalCase">
+			<defaultValue>${a_temp}${b_temp}</defaultValue>
+		</requiredProperty>
+		
+		<requiredProperty key="version">
+			<defaultValue>1.0</defaultValue>
+		</requiredProperty>
+	</requiredProperties>
+
+	<fileSets>
+		<fileSet filtered="true" packaged="false">
+			<directory></directory>
+			<includes>
+				<include>Dockerfile</include>
+				<include>docker-compose.yaml</include>
+				<include>openshift-deployment-configuration.yaml</include>
+				<include>openshift-service.yaml</include>
+			</includes>
+		</fileSet>
+		
+		<!-- 
+		<fileSet filtered="true" packaged="false">
+			<directory>src/main/java/__packageInPathFormat__/__microService__/model</directory>
+			<includes>
+				<include>**/Airliner.java</include>
+			</includes>
+		</fileSet>
+		 -->
+		
+		<fileSet filtered="true" packaged="true">
+			<directory>src/main/java</directory>
+			<exclude>**/__XMicroServicePascalCase__.java</exclude>
+			<include>**/*.java</include>
+		</fileSet>
+		
+		<fileSet filtered="true" packaged="false">
+			<directory>src/main/resources</directory>
+			<includes>
+				<include>**/*</include>
+			</includes>
+		</fileSet>
+		<fileSet filtered="true" packaged="true">
+			<directory>src/test/java</directory>
+			<includes>
+				<include>**/*.java</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+
+</archetype-descriptor>
