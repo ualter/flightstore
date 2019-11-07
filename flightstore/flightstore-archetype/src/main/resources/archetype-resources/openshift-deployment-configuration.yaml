@@ -1,0 +1,55 @@
+kind: DeploymentConfig
+apiVersion: "v1"
+metadata:
+  name: ${artifactId}
+  namespace: myproject
+  labels:
+    app: ${artifactId}
+    name: ${artifactId}
+spec:
+  replicas: 1
+  selector:
+    app: ${artifactId}
+    deploymentconfig: ${artifactId}
+  strategy:
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling  
+  template: 
+    metadata:
+      labels:
+        app: ${artifactId}
+        deploymentconfig: ${artifactId}
+    spec:
+      containers:
+        - env:
+            - name: JASYPT_ENCRYPTOR_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: encryptor-password
+                  name: jasypt-encryptor
+            - name: SPRING_PROFILES_ACTIVE
+              value: minishift
+          image: 'my-registry:5000/ualter-${artifactId}:latest'
+          imagePullPolicy: Always
+          name: ualter-${artifactId}
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /tmp
+              name: ${artifactId}-volume-1
+      imagePullSecrets:
+        - name: my-registry-secret
+      restartPolicy: Always
+      volumes:
+        - emptyDir: {}
+          name: ${artifactId}-volume-1
+  triggers:
+    - type: "ConfigChange"
+    
+  

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor name="basic">
+
+	<requiredProperties>
+        <requiredProperty key="archetypeVersion">
+            <defaultValue>1.0</defaultValue>
+        </requiredProperty>
+		<requiredProperty key="groupId">
+			<defaultValue>ujr.flightstore</defaultValue>
+		</requiredProperty>
+		<requiredProperty key="artifactId" />
+		<requiredProperty key="microService"/>
+		
+		<requiredProperty key="a_temp">
+		   <defaultValue>${artifactId.indexOf('-')}</defaultValue>
+		</requiredProperty>
+		<requiredProperty key="b_temp">
+		   <defaultValue>${artifactId.indexOf('-')}</defaultValue>
+		</requiredProperty>
+		<requiredProperty key="c_temp">
+		   <defaultValue>${artifactId.indexOf('-')}</defaultValue>
+		</requiredProperty>
+		<requiredProperty key="2_temp">
+			<defaultValue>${"a_temp"}</defaultValue>
+		</requiredProperty>
+		
+		<requiredProperty key="version">
+			<defaultValue>1.0</defaultValue>
+		</requiredProperty>
+	</requiredProperties>
+
+	<fileSets>
+		<fileSet filtered="true" packaged="false">
+			<directory></directory>
+			<includes>
+				<include>Dockerfile</include>
+				<include>docker-compose.yaml</include>
+				<include>openshift-deployment-configuration.yaml</include>
+				<include>openshift-service.yaml</include>
+			</includes>
+		</fileSet>
+		<fileSet filtered="true" packaged="true">
+			<directory>src/main/java</directory>
+			<includes>
+				<include>**/*.java</include>
+			</includes>
+		</fileSet>
+		<fileSet filtered="true" packaged="false">
+			<directory>src/main/resources</directory>
+			<includes>
+				<include>**/*</include>
+			</includes>
+		</fileSet>
+		<fileSet filtered="true" packaged="true">
+			<directory>src/test/java</directory>
+			<includes>
+				<include>**/*.java</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+
+</archetype-descriptor>

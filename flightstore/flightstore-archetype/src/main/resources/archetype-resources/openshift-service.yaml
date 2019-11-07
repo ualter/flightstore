@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: ${artifactId}
+    name: ${artifactId}
+  name: ${artifactId}
+  namespace: myproject
+spec:
+  selector:
+    app: ${artifactId}
+    deploymentconfig: ${artifactId}
+  ports:
+    - name: 9180-tcp
+      port: 80
+      protocol: TCP
+      targetPort: 9180
