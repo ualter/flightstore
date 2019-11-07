@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 
 spring:             
   datasource:
     driver-class-name: "com.mysql.cj.jdbc.Driver"
     url: "jdbc:mysql://${mysql.ip}:${mysql.port}/fs-airliner?allowPublicKeyRetrieval=true&nullNamePatternMatchesAll=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC"
+=======
+spring:             
+  datasource:
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
+    url: "jdbc:mysql://${mysql.ip}:${mysql.port}/fs-airplane?allowPublicKeyRetrieval=true&nullNamePatternMatchesAll=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC"
+>>>>>>> 4e4777108aae31d345285aadaf12406b75de469c
     username: "user"
     password: ENC(nRcqiSTxY46XWZLZmiRarw==)
   flyway:
@@ -19,7 +26,13 @@ redis-cache:
   host: "127.0.0.1"
   port: 6379
   caches-specifications:
+<<<<<<< HEAD
     AIRLINER:
+=======
+    AIRPLANES:
+      timeout: 10
+    MANUFACTURERS:
+>>>>>>> 4e4777108aae31d345285aadaf12406b75de469c
       timeout: 20
       
 logging:
