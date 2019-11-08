@@ -1,0 +1,15 @@
+version: '3.3' 
+
+services:
+  app:
+    build: .
+    image: ualter/flightstore-airliner
+    environment:
+      - MYSQL_IP=${MYSQL_IP} 
+      - MYSQL_PORT=${MYSQL_PORT}
+      - jasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
+      - spring.flyway.connect-retries=30
+    ports:
+      - 9181:9180
+    expose:
+      - '9181'

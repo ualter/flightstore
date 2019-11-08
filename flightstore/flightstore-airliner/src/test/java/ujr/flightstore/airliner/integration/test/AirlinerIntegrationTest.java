@@ -1,4 +1,4 @@
-package ujr.flightstore.${microService}.integration.test;
+package ujr.flightstore.airliner.integration.test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
@@ -19,11 +19,11 @@ import org.springframework.test.annotation.IfProfileValue;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import ujr.flightstore.${microService}.${XMicroServicePascalCase}App;
-import ujr.flightstore.${microService}.model.${XMicroServicePascalCase};
-import ujr.flightstore.${microService}.model.Manufacturer;
-import ujr.flightstore.${microService}.repository.ManufacturerRepository;
-import ujr.flightstore.${microService}.service.${XMicroServicePascalCase}Service;
+import ujr.flightstore.airliner.AirlinerApp;
+import ujr.flightstore.airliner.model.Airliner;
+import ujr.flightstore.airliner.model.Manufacturer;
+import ujr.flightstore.airliner.repository.ManufacturerRepository;
+import ujr.flightstore.airliner.service.AirlinerService;
 
 
 /**
@@ -35,34 +35,34 @@ import ujr.flightstore.${microService}.service.${XMicroServicePascalCase}Service
  */
 @RunWith(SpringRunner.class)
 @IfProfileValue(name="integration-tests", value="true")
-@SpringBootTest(classes = { ${XMicroServicePascalCase}App.class }, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@SpringBootTest(classes = { AirlinerApp.class }, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-public class ${XMicroServicePascalCase}IntegrationTest {
+public class AirlinerIntegrationTest {
 
 	@Autowired
 	private MockMvc mvc;
 	
 	@Autowired
-	private ${XMicroServicePascalCase}Service ${microService}Service;
+	private AirlinerService airlinerService;
 	
 	@Autowired
 	private ManufacturerRepository manufacturerRepository;
 	
 	@Test
-	public void whenList_thenReturnAll${XMicroServicePascalCase}s() throws Exception {
+	public void whenList_thenReturnAllAirliners() throws Exception {
 		
 		Manufacturer boeing = Manufacturer.builder().name("Boeing").build();
 		Manufacturer airbus = Manufacturer.builder().name("Airbus").build();
 		manufacturerRepository.save(boeing);
 		manufacturerRepository.save(airbus);
 		
-		${microService}Service.save(${XMicroServicePascalCase}.builder().model("B737").manufacturer(boeing).build());
-		${microService}Service.save(${XMicroServicePascalCase}.builder().model("B737").manufacturer(boeing).build());
-		${microService}Service.save(${XMicroServicePascalCase}.builder().model("B737").manufacturer(boeing).build());
-		${microService}Service.save(${XMicroServicePascalCase}.builder().model("B777").manufacturer(boeing).build());
-		${microService}Service.save(${XMicroServicePascalCase}.builder().model("A320").manufacturer(airbus).build());
-		${microService}Service.save(${XMicroServicePascalCase}.builder().model("A350").manufacturer(airbus).build());
+		airlinerService.save(Airliner.builder().model("B737").manufacturer(boeing).build());
+		airlinerService.save(Airliner.builder().model("B737").manufacturer(boeing).build());
+		airlinerService.save(Airliner.builder().model("B737").manufacturer(boeing).build());
+		airlinerService.save(Airliner.builder().model("B777").manufacturer(boeing).build());
+		airlinerService.save(Airliner.builder().model("A320").manufacturer(airbus).build());
+		airlinerService.save(Airliner.builder().model("A350").manufacturer(airbus).build());
 		
 		mvc.perform(get("/api/v1/{microService}s")
 				.contentType(MediaType.APPLICATION_JSON))

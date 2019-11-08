@@ -1,4 +1,4 @@
-package ujr.flightstore.${microService}.unit.test;
+package ${package}.${microService}.unit.test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;

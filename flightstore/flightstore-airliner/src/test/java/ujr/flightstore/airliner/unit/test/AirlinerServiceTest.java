@@ -1,4 +1,4 @@
-package ujr.flightstore.${atifactId}.unit.test;
+package ujr.flightstore.airliner.unit.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,21 +19,21 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import ujr.flightstore.${microService}.model.${XMicroServicePascalCase};
-import ujr.flightstore.${microService}.model.Manufacturer;
-import ujr.flightstore.${microService}.service.${XMicroServicePascalCase}Service;
-import ujr.flightstore.${microService}.service.ManufacturerService;
+import ujr.flightstore.airliner.model.Airliner;
+import ujr.flightstore.airliner.model.Manufacturer;
+import ujr.flightstore.airliner.service.AirlinerService;
+import ujr.flightstore.airliner.service.ManufacturerService;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-public class ${XMicroServicePascalCase}ServiceTest {
+public class AirlinerServiceTest {
 	
 	@TestConfiguration
-	static class ${XMicroServicePascalCase}ServiceTestContextConfiguration {
+	static class AirlinerServiceTestContextConfiguration {
 		@Bean
-		public ${XMicroServicePascalCase}Service ${microService}Service() {
-			return new ${microService}Service();
+		public AirlinerService airlinerService() {
+			return new airlinerService();
 		}
 		
 		@Bean
@@ -46,7 +46,7 @@ public class ${XMicroServicePascalCase}ServiceTest {
 	private TestEntityManager entityManager;
 	
 	@Autowired
-	private ${XMicroServicePascalCase}Service ${microService}Service;
+	private AirlinerService airlinerService;
 	
 	@Autowired
 	private OtherService otherService;
@@ -66,41 +66,41 @@ public class ${XMicroServicePascalCase}ServiceTest {
 			this.airbus = entityManager.persist(airbus);
 			entityManager.flush();
 
-			entityManager.persist(${XMicroServicePascalCase}.builder().model("B737").manufacturer(boeing).seats(150).build());
-			entityManager.persist(${XMicroServicePascalCase}.builder().model("B737").manufacturer(boeing).seats(150).build());
-			entityManager.persist(${XMicroServicePascalCase}.builder().model("B737").manufacturer(boeing).seats(150).build());
-			entityManager.persist(${XMicroServicePascalCase}.builder().model("B777").manufacturer(boeing).seats(280).build());
-			entityManager.persist(${XMicroServicePascalCase}.builder().model("A320").manufacturer(airbus).seats(120).build());
-			entityManager.persist(${XMicroServicePascalCase}.builder().model("A350").manufacturer(airbus).seats(290).build());
-			entityManager.persist(${XMicroServicePascalCase}.builder().model("A380").manufacturer(airbus).seats(500).build());
+			entityManager.persist(Airliner.builder().model("B737").manufacturer(boeing).seats(150).build());
+			entityManager.persist(Airliner.builder().model("B737").manufacturer(boeing).seats(150).build());
+			entityManager.persist(Airliner.builder().model("B737").manufacturer(boeing).seats(150).build());
+			entityManager.persist(Airliner.builder().model("B777").manufacturer(boeing).seats(280).build());
+			entityManager.persist(Airliner.builder().model("A320").manufacturer(airbus).seats(120).build());
+			entityManager.persist(Airliner.builder().model("A350").manufacturer(airbus).seats(290).build());
+			entityManager.persist(Airliner.builder().model("A380").manufacturer(airbus).seats(500).build());
 			entityManager.flush();
 			this.setUp = true;
 		}
 	}
 	
 	@Test
-	public void whenList_thenReturnAll${XMicroServicePascalCase}s() {
-		assertThat(${microService}Service.list())
+	public void whenList_thenReturnAllAirliners() {
+		assertThat(airlinerService.list())
 			.isNotNull()
 			.hasSize(7)
 			.allMatch(p -> !p.getManufacturer().getName().isEmpty());
 	}
 	
 	@Test
-	public void whenListPageable_thenReturnFirstPageOf${XMicroServicePascalCase}s() {
+	public void whenListPageable_thenReturnFirstPageOfAirliners() {
 		
 		Pageable firstPage = PageRequest.of(0, this.pageSize);
 		
-		assertThat(${microService}Service.list(firstPage))
+		assertThat(airlinerService.list(firstPage))
 			.isNotNull()
 			.hasSize(3)
 			.allMatch(p -> !p.getManufacturer().getName().isEmpty());
 	}
 	
 	@Test
-	public void whenListPageableSortAsc_thenReturnFirstPageOfSort${XMicroServicePascalCase}s() {
+	public void whenListPageableSortAsc_thenReturnFirstPageOfSortAirliners() {
 		// Ascending Order Seats (120)
-		Page<Airplane> result = ${microService}Service.list(PageRequest.of(0, this.pageSize, Sort.by("seats")));
+		Page<Airplane> result = airlinerService.list(PageRequest.of(0, this.pageSize, Sort.by("seats")));
 		assertThat(result)
 			.isNotNull()
 			.hasSize(3);
@@ -108,7 +108,7 @@ public class ${XMicroServicePascalCase}ServiceTest {
 		assertThat(result.getContent().get(0).getModel()).isEqualToIgnoringCase("A320");
 		
 		// Descending Order Seats (500)
-		result = ${microService}Service.list(PageRequest.of(0, this.pageSize, Sort.by("seats").descending()));
+		result = airlinerService.list(PageRequest.of(0, this.pageSize, Sort.by("seats").descending()));
 		assertThat(result)
 			.isNotNull()
 			.hasSize(3);
@@ -117,8 +117,8 @@ public class ${XMicroServicePascalCase}ServiceTest {
 	}
 	
 	@Test
-	public void whenFindByModelB737_thenReturnB737${XMicroServicePascalCase}s() {
-		assertThat(${microService}Service.findByModel("B737"))
+	public void whenFindByModelB737_thenReturnB737Airliners() {
+		assertThat(airlinerService.findByModel("B737"))
 			.isNotNull()
 			.hasSize(3)
 			.allMatch(p -> !p.getManufacturer().getName().isEmpty())
@@ -128,7 +128,7 @@ public class ${XMicroServicePascalCase}ServiceTest {
 	
 	@Test
 	public void whenFindByManufactorerBoeing_thenReturnBoeing{XMicroServicePascalCase}s() {
-		assertThat(${microService}Service.findByManufacturer(boeing.getId()))
+		assertThat(airlinerService.findByManufacturer(boeing.getId()))
 			.isNotNull()
 			.hasSize(4)
 			.allMatch(p -> !p.getManufacturer().getName().isEmpty())
