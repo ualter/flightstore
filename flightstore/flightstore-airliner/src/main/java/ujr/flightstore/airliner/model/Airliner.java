@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
@@ -20,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "All details about the Airliner. ")
+@ApiModel(description = "All details about the Airliner.")
 public class Airliner implements Serializable {
 	
 	/**
