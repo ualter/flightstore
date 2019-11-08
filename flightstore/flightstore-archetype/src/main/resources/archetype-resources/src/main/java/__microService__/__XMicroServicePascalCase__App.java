@@ -1,4 +1,4 @@
-package ${groupId}.${microService};
+package ${package}.${microService};
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

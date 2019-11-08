@@ -1,4 +1,4 @@
-package ujr.flightstore.${microService}.model;
+package ${package}.${microService}.model;
 
 import java.io.Serializable;
 
@@ -15,7 +15,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-
 @Entity
 @Data
 @Builder
@@ -23,6 +22,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @ApiModel(description = "All details about the ${XMicroServicePascalCase}. ")
 public class ${XMicroServicePascalCase} implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

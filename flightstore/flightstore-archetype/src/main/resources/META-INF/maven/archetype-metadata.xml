@@ -36,32 +36,26 @@
 				<include>openshift-service.yaml</include>
 			</includes>
 		</fileSet>
-		<!-- 
-		<fileSet filtered="true" packaged="false">
-			<directory>src/main/java/__packageInPathFormat__/__microService__/model</directory>
-			<includes>
-				<include>**/Airliner.java</include>
-			</includes>
-		</fileSet>
-		 -->
 		
 		<fileSet filtered="true" packaged="true">
 			<directory>src/main/java</directory>
-			<exclude>**/__XMicroServicePascalCase__.java</exclude>
-			<include>**/*.java</include>
 		</fileSet>
+		
 		<fileSet filtered="true" packaged="false">
 			<directory>src/main/resources</directory>
 			<includes>
 				<include>**/*</include>
 			</includes>
 		</fileSet>
+		
 		<fileSet filtered="true" packaged="true">
 			<directory>src/test/java</directory>
 			<includes>
 				<include>**/*.java</include>
 			</includes>
 		</fileSet>
+		
 	</fileSets>
+	
 
 </archetype-descriptor>

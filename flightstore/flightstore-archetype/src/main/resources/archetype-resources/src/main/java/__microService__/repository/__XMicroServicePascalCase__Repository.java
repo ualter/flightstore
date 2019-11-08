@@ -1,4 +1,4 @@
-package ujr.flightstore.${microService}.repository;
+package ${package}.${microService}.repository;
 
 import java.util.List;
 

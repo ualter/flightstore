@@ -1,4 +1,4 @@
-package ujr.flightstore.${microService}.controller;
+package ${package}.${microService}.controller;
 
 import java.util.List;
 import java.util.Locale;
@@ -53,7 +53,7 @@ public class ${XMicroServicePascalCase}RestController {
 	@CommonApiResponsesQuery
 	@GetMapping(path = "/${microService}s/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public Airplane findById(@PathVariable(value = "id") Long id) {
+	public ${XMicroServicePascalCase} findById(@PathVariable(value = "id") Long id) {
 		${XMicroServicePascalCase} ${microService} = this.${microService}Service.findById(id);
 		if ( ${microService} == null ) {
 			throw new ResourceNotFoundException(
@@ -81,7 +81,7 @@ public class ${XMicroServicePascalCase}RestController {
 	@PostMapping(path = "/${microService}s", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public Airplane create(@RequestBody ${XMicroServicePascalCase} ${microService}) {
+	public ${XMicroServicePascalCase} create(@RequestBody ${XMicroServicePascalCase} ${microService}) {
 		return this.${microService}Service.save(${microService});
 	}
 	

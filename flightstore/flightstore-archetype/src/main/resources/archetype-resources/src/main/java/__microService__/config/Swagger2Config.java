@@ -1,4 +1,4 @@
-package ujr.flightstore.${microService}.config;
+package ${package}.${microService}.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package ujr.flightstore.${microService}.service;
+package ${package}.${microService}.service;
 
 import java.util.ArrayList;
 import java.util.List;
