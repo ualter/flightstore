@@ -1,7 +1,8 @@
 CREATE TABLE manufacturer (
   id bigint(20) NOT NULL AUTO_INCREMENT,
   name varchar(255) DEFAULT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  INDEX(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE airplane (
@@ -11,7 +12,7 @@ CREATE TABLE airplane (
   seats int(11) DEFAULT NULL,
   manufacturer_id bigint(20) DEFAULT NULL,
   PRIMARY KEY (id),
-  INDEX(manufacturer_id),
+  INDEX(id, manufacturer_id),
   FOREIGN KEY (manufacturer_id) 
           REFERENCES manufacturer(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

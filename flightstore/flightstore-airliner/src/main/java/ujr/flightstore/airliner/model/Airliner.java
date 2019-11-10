@@ -1,11 +1,17 @@
 package ujr.flightstore.airliner.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
@@ -31,5 +37,10 @@ public class Airliner implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+	
+	@ElementCollection(fetch = FetchType.LAZY)
+	@CollectionTable(name = "airline_airplanes", joinColumns = @JoinColumn(name = "airline_id"))
+	@Column(name = "airplane_id")
+	private Set<Long> airplanes;
 
 }
