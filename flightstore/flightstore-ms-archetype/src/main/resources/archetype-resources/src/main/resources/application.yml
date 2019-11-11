@@ -1,6 +1,21 @@
 #set( $capital = $microService.toUpperCase() )
-
-spring:             
+server:
+  port: 9180
+  servlet:
+    context-path: /${artifactId}
+    
+management:
+  endpoint:
+    refresh:
+      enabled: true          
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        
+spring:         
+  profiles:
+    active: "mac"    
   datasource:
     driver-class-name: "com.mysql.cj.jdbc.Driver"
     url: "jdbc:mysql://${mysql.ip}:${mysql.port}/fs-${microService}?allowPublicKeyRetrieval=true&nullNamePatternMatchesAll=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC"

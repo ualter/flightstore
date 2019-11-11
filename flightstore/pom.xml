@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>ujr.flightstore</groupId>
@@ -30,7 +32,7 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- Spring Boot -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -59,16 +61,10 @@
 			<version>2.1.2</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-configuration-processor</artifactId>
-		    <optional>true</optional>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
 		</dependency>
-		<dependency>
-		    <groupId>org.springframework.cloud</groupId>
-		    <artifactId>spring-cloud-starter-kubernetes-config</artifactId>
-		    <version>1.0.3.RELEASE</version>
-		</dependency>
-				
 
 		<!-- Lombok -->
 		<dependency>
@@ -111,12 +107,39 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-kubernetes-config</artifactId>
+			<version>1.0.3.RELEASE</version>
+		</dependency>
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>minishift</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<!-- 
+							Excluding the application.yml when building the Docker Image (from the JAR file)
+							because we should use the ConfigMap at the Kubernetes environment, not the application.yml 
+						-->
+						<excludes>
+							<exclude>**/application.yml</exclude>
+						</excludes>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+	</profiles>
 
 	<modules>
 		<module>flightstore-airplane</module>
+		<module>flightstore-airplane-client</module>
+		<module>flightstore-airliner</module>
 		<module>flightstore-commons</module>
-    <module>flightstore-airliner</module>
-  </modules>
+	</modules>
 
 </project>
