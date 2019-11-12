@@ -39,8 +39,27 @@ public class Airliner implements Serializable {
 	private String name;
 	
 	@ElementCollection(fetch = FetchType.LAZY)
-	@CollectionTable(name = "airline_airplanes", joinColumns = @JoinColumn(name = "airline_id"))
+	@CollectionTable(name = "airliner_airplanes", joinColumns = @JoinColumn(name = "airliner_id"))
 	@Column(name = "airplane_id")
 	private Set<Long> airplanes;
+	
+	/*
+	// Strategy using a Embedded Object as a Proxy
+	@Embedded
+	@ElementCollection
+	private Collection<AirplaneProxy> airplanes = new ArrayList<AirplaneProxy>();
+	
+	@Data
+	@AllArgsConstructor
+	@NoArgsConstructor
+	@Embeddable
+	public static class AirplaneProxy implements Serializable {
+
+		private static final long serialVersionUID = 1L;
+		private Long airplane_id;
+
+	}
+	*/
+	
 
 }

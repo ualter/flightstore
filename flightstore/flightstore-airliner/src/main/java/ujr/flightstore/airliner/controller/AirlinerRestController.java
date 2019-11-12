@@ -63,6 +63,20 @@ public class AirlinerRestController {
 		return airliner;
 	}
 	
+	@ApiOperation(value = "Find Airliners by its Name", response = List.class, tags = { "Airliner" } )
+	@CommonApiResponsesQuery
+	@GetMapping(path = "/airliners/name/{name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public List<Airliner> findById(@PathVariable(value = "name") String name) {
+		List<Airliner> listAirliner = this.airlinerService.findByName(name);
+		if ( listAirliner == null || listAirliner.size() == 0 ) {
+			throw new ResourceNotFoundException(
+				messageSource.getMessage("errors.resource_not_found_byName", new Object[]{"Airliners",name}, Locale.getDefault())
+			);
+		}
+		return listAirliner;
+	}
+	
 	@ApiOperation(value = "Delete a specific Airliner", response = Airliner.class)
 	@CommonApiResponsesQuery
 	@DeleteMapping(path = "/airliners/{id}")

@@ -1,28 +1,42 @@
 package ujr.flightstore.airliner.unit.test;
 
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import ujr.flightstore.airliner.model.Airliner;
+import ujr.flightstore.airliner.service.AirlinerService;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class AirlinerServiceTest {
 	
-	/*
 	@TestConfiguration
 	static class AirlinerServiceTestContextConfiguration {
 		@Bean
 		public AirlinerService airlinerService() {
-			return new airlinerService();
+			return new AirlinerService();
 		}
 		
-		@Bean
-		public OtherService otherService() {
-			return new OtherService();
-		}
 	}
 	
 	@Autowired
@@ -31,31 +45,23 @@ public class AirlinerServiceTest {
 	@Autowired
 	private AirlinerService airlinerService;
 	
-	@Autowired
-	private OtherService otherService;
-	
 	private boolean setUp = false;
 	private int pageSize = 3;
-	private Manufacturer boeing;
-	private Manufacturer airbus;
 	
 	
 	@Before
 	public void setMockOutput() {
 		if (!this.setUp) {
-			this.boeing = Manufacturer.builder().name("Boeing").build();
-			this.airbus = Manufacturer.builder().name("Airbus").build();
-			this.boeing = entityManager.persist(boeing);
-			this.airbus = entityManager.persist(airbus);
-			entityManager.flush();
-
-			entityManager.persist(Airliner.builder().model("B737").manufacturer(boeing).seats(150).build());
-			entityManager.persist(Airliner.builder().model("B737").manufacturer(boeing).seats(150).build());
-			entityManager.persist(Airliner.builder().model("B737").manufacturer(boeing).seats(150).build());
-			entityManager.persist(Airliner.builder().model("B777").manufacturer(boeing).seats(280).build());
-			entityManager.persist(Airliner.builder().model("A320").manufacturer(airbus).seats(120).build());
-			entityManager.persist(Airliner.builder().model("A350").manufacturer(airbus).seats(290).build());
-			entityManager.persist(Airliner.builder().model("A380").manufacturer(airbus).seats(500).build());
+			Set<Long> airplanesId = new HashSet<Long>();
+			airplanesId.add(1L);
+			airplanesId.add(2L);
+			airplanesId.add(3L);
+			entityManager.persist(Airliner.builder().name("Iberia").airplanes(airplanesId).build());
+			entityManager.persist(Airliner.builder().name("Air British").airplanes(airplanesId).build());
+			entityManager.persist(Airliner.builder().name("Air France").airplanes(airplanesId).build());
+			entityManager.persist(Airliner.builder().name("TAP").airplanes(airplanesId).build());
+			entityManager.persist(Airliner.builder().name("Air Italia").airplanes(airplanesId).build());
+			entityManager.persist(Airliner.builder().name("KLM").airplanes(airplanesId).build());
 			entityManager.flush();
 			this.setUp = true;
 		}
@@ -65,8 +71,8 @@ public class AirlinerServiceTest {
 	public void whenList_thenReturnAllAirliners() {
 		assertThat(airlinerService.list())
 			.isNotNull()
-			.hasSize(7)
-			.allMatch(p -> !p.getManufacturer().getName().isEmpty());
+			.hasSize(6)
+			.allMatch(p -> !p.getName().isEmpty());
 	}
 	
 	@Test
@@ -77,46 +83,33 @@ public class AirlinerServiceTest {
 		assertThat(airlinerService.list(firstPage))
 			.isNotNull()
 			.hasSize(3)
-			.allMatch(p -> !p.getManufacturer().getName().isEmpty());
+			.allMatch(p -> !p.getName().isEmpty());
 	}
 	
 	@Test
 	public void whenListPageableSortAsc_thenReturnFirstPageOfSortAirliners() {
-		// Ascending Order Seats (120)
-		Page<Airplane> result = airlinerService.list(PageRequest.of(0, this.pageSize, Sort.by("seats")));
+		// Ascending Order Name (Air British)
+		Page<Airliner> result = airlinerService.list(PageRequest.of(0, this.pageSize, Sort.by("name")));
 		assertThat(result)
 			.isNotNull()
 			.hasSize(3);
-		assertThat(result.getContent().get(0).getSeats()).isEqualTo(120);
-		assertThat(result.getContent().get(0).getModel()).isEqualToIgnoringCase("A320");
+		assertThat(result.getContent().get(0).getName()).isEqualTo("Air British");
 		
-		// Descending Order Seats (500)
-		result = airlinerService.list(PageRequest.of(0, this.pageSize, Sort.by("seats").descending()));
+		// Descending Order Name (KLM)
+		result = airlinerService.list(PageRequest.of(0, this.pageSize, Sort.by("name").descending()));
 		assertThat(result)
 			.isNotNull()
 			.hasSize(3);
-		assertThat(result.getContent().get(0).getSeats()).isEqualTo(500);
-		assertThat(result.getContent().get(0).getModel()).isEqualToIgnoringCase("A380");
+		assertThat(result.getContent().get(0).getName()).isEqualTo("TAP");
 	}
 	
 	@Test
-	public void whenFindByModelB737_thenReturnB737Airliners() {
-		assertThat(airlinerService.findByModel("B737"))
-			.isNotNull()
-			.hasSize(3)
-			.allMatch(p -> !p.getManufacturer().getName().isEmpty())
-			.allMatch(p -> p.getManufacturer().getName().toLowerCase().equals("boeing") )
-			.allMatch(a -> a.getModel().equals("B737") );
+	public void whenFindByNameIbeira_thenReturnIberiaAirliners() {
+		assertThat(
+				airlinerService.findByName("Iberia"))
+					.isNotNull()
+					.hasSize(1)
+					.allMatch(p -> p.getName().toLowerCase().equals("iberia"));
 	}
-	
-	@Test
-	public void whenFindByManufactorerBoeing_thenReturnBoeing{XMicroServicePascalCase}s() {
-		assertThat(airlinerService.findByManufacturer(boeing.getId()))
-			.isNotNull()
-			.hasSize(4)
-			.allMatch(p -> !p.getManufacturer().getName().isEmpty())
-			.allMatch(p -> p.getManufacturer().getName().toLowerCase().equals("boeing") );
-	}
-	*/
 
 }

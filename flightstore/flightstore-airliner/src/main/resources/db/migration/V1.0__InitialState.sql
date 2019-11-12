@@ -4,12 +4,12 @@ CREATE TABLE airliner (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE airline_airplanes (
-  airline_id bigint(20) NOT NULL,
+CREATE TABLE airliner_airplanes (
+  airliner_id bigint(20) NOT NULL,
   airplane_id bigint(20) NOT NULL,
-  PRIMARY KEY (airline_id, airplane_id),
-  INDEX(airline_id, airplane_id),
-  FOREIGN KEY (airline_id) 
+  PRIMARY KEY (airliner_id, airplane_id),
+  INDEX(airliner_id, airplane_id),
+  FOREIGN KEY (airliner_id) 
           REFERENCES airliner(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
