@@ -10,6 +10,7 @@
 		<groupId>ujr.flightstore</groupId>
 		<artifactId>flightstore-parent</artifactId>
 		<version>1.0</version>
+		<relativePath>..</relativePath>
 	</parent>
 
 	<name>flightstore-airplane</name>
@@ -28,12 +29,12 @@
 			<groupId>ujr.flightstore</groupId>
 			<artifactId>flightstore-commons</artifactId>
 			<version>${project.version}</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
-			<optional>true</optional>
 		</dependency>
 	</dependencies>
 

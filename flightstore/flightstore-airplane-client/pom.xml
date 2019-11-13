@@ -10,6 +10,7 @@
 		<groupId>ujr.flightstore</groupId>
 		<artifactId>flightstore-parent</artifactId>
 		<version>1.0</version>
+		<relativePath>..</relativePath>
 	</parent>
 
 	<name>flightstore-airplane-client</name>

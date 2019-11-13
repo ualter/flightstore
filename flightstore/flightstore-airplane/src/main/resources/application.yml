@@ -11,15 +11,13 @@ management:
     web:
       exposure:
         include: "*"
-
+        
 eureka:
-  client:
-    serviceUrl:
-         defaultZone: http://localhost:8761/eureka
-    
+  instance:
+    status-page-url-path: /flightstore-airplane/actuator/info
+    health-check-url-path: /flightstore-airplane/actuator/health        
+
 spring:
-  application:
-    name: flightstore-airplane
   profiles:
     active: "mac"             
   datasource:

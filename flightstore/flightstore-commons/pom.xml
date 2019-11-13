@@ -10,6 +10,7 @@
 		<groupId>ujr.flightstore</groupId>
 		<artifactId>flightstore-parent</artifactId>
 		<version>1.0</version>
+		<relativePath>..</relativePath>
 	</parent>
 
 	<name>flightstore-commons</name>
@@ -18,7 +19,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
-			<optional>true</optional>
 		</dependency>
 	</dependencies>
 

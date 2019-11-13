@@ -5,6 +5,8 @@ server:
     
 management:
   endpoint:
+    health:
+      show-details: always
     refresh:
       enabled: true          
   endpoints:
@@ -12,6 +14,9 @@ management:
       exposure:
         include: "*"
         
+eureka:  instance:
+    status-page-url-path: /flightstore-airliner/actuator/info
+    health-check-url-path: /flightstore-airliner/actuator/health        
 spring:      
   profiles:
     active: "mac"       

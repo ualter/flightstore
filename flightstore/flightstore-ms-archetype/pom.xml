@@ -5,7 +5,7 @@
 		<groupId>ujr.flightstore</groupId>
 		<artifactId>flightstore-parent</artifactId>
 		<version>1.0</version>
-		<relativePath>flightstore-parent</relativePath>
+		<relativePath>..</relativePath>
 	</parent>
 	
 	<modelVersion>4.0.0</modelVersion>
