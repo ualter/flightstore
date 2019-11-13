@@ -1,4 +1,4 @@
-package ujr.flightstore.airplane.client;
+package ujr.flightstore.airplane.client.view;
 
 import java.io.Serializable;
 

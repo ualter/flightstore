@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.kubernetes.config.reload.ConfigReloadAutoConfiguration;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
@@ -14,6 +15,7 @@ import ujr.flightstore.config.MysqlConfigProperties;
 @SpringBootApplication(exclude = ConfigReloadAutoConfiguration.class)
 @ComponentScan(basePackages = "ujr.flightstore")
 @EnableEncryptableProperties
+@EnableEurekaClient
 @EnableConfigurationProperties({MysqlConfigProperties.class, CacheConfigProperties.class})
 public class AirplaneApp 
 {
