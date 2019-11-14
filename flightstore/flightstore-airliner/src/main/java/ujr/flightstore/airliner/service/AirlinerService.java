@@ -32,7 +32,7 @@ public class AirlinerService {
 		return this.airlinerRepository.findAll(pageable);
 	}
 
-	@Cacheable(cacheNames="AIRLINER",key="'listByName'",unless="#result.size() == 0")
+	@Cacheable(cacheNames="AIRLINER",key="#name",unless="#result.size() == 0")
 	public List<Airliner> findByName(String name) {
 		return this.airlinerRepository.findByName(name);
 	}

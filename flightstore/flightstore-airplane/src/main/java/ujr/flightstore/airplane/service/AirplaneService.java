@@ -31,12 +31,12 @@ public class AirplaneService {
 		return this.airplaneRepository.findAll(pageable);
 	}
 
-	@Cacheable(cacheNames="AIRPLANES",key="'listByModel'",unless="#result.size() == 0")
+	@Cacheable(cacheNames="AIRPLANES",key="'listByModel_' + #model",unless="#result.size() == 0")
 	public List<Airplane> findByModel(String model) {
 		return this.airplaneRepository.findByModel(model);
 	}
 	
-	@Cacheable(cacheNames="AIRPLANES",key="'listByManufacturer'",unless="#result.size() == 0")
+	@Cacheable(cacheNames="AIRPLANES",key="'listByManufacturer_' + #id",unless="#result.size() == 0")
 	public List<Airplane> findByManufacturer(Long id) {
 		return this.airplaneRepository.findByManufacturer(Manufacturer.builder().id(id).build());
 	}
@@ -55,6 +55,11 @@ public class AirplaneService {
 		return this.airplaneRepository.findById(id).orElse(null);
 	}
 	
+	public List<Airplane> findByIds(List<Long> listIds) {
+		List<Airplane> list = new ArrayList<Airplane>();
+		this.airplaneRepository.findAllByIds(listIds).forEach(list::add);
+		return list;
+	}
 	
 	@CacheEvict(allEntries = true, cacheNames = { "AIRPLANES" })
 	public void cleanCache() {

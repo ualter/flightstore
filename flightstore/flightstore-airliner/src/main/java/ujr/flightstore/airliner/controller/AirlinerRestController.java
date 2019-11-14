@@ -1,5 +1,6 @@
 package ujr.flightstore.airliner.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -20,16 +21,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import ujr.flightstore.airliner.model.Airliner;
 import ujr.flightstore.airliner.service.AirlinerService;
+import ujr.flightstore.airplane.client.AirplaneClient;
+import ujr.flightstore.airplane.client.view.AirplaneView;
 import ujr.flightstore.controller.CommonApiResponsesCreation;
 import ujr.flightstore.controller.CommonApiResponsesQuery;
 import ujr.flightstore.controller.CommonApiResponsesUpdate;
 import ujr.flightstore.exception.ResourceNotFoundException;
 
-
-// Check: https://dzone.com/articles/spring-boot-2-restful-api-documentation-with-swagg
-
+@Slf4j
 @Api(value = "Flightstore", description = "REST API for Airliner", tags = { "Airliner" })
 @RestController
 @RequestMapping(path = "/api/v1")
@@ -40,6 +42,9 @@ public class AirlinerRestController {
 	
 	@Autowired
 	private MessageSource messageSource;
+	
+	@Autowired
+	private AirplaneClient airplaneClient;
 
 	@ApiOperation(value = "List of available airliners", response = List.class, tags = { "Airliner" } )
 	@CommonApiResponsesQuery
@@ -60,6 +65,35 @@ public class AirlinerRestController {
 				messageSource.getMessage("errors.resource_not_found", new Object[]{"Airliner",id}, Locale.getDefault())
 			);
 		}
+		
+		// Consulting the Airplanes Data from Airplane Micro Services
+		// Preparing the List of Ids (Long)
+		List<Long> listAirplaneIds = new ArrayList<Long>();
+		airliner.getAirplanes().forEach(a -> { 
+			listAirplaneIds.add(a.getId()); 
+		});
+		// Requesting all of the Airplanes and fill up the Airline collection with them
+		List<AirplaneView> airplanes = this.airplaneClient.findByIds(listAirplaneIds);
+		if (airplanes == null || airplanes.size() == 0 ) {
+			log.warn("Nothing found for the requested airplanes Ids: " + listAirplaneIds);
+		} else {
+			airliner.getAirplanes().forEach(airplane -> {
+				AirplaneView airplaneView = airplanes.stream()
+							.filter(a -> a.getId() == airplane.getId())
+							.findFirst()
+							.orElse(null);
+				if ( airplaneView != null ) {
+					airplane.setModel(airplaneView.getModel());
+					airplane.setRangeKm(airplaneView.getRangeKm());
+					airplane.setSeats(airplaneView.getSeats());
+					airplane.setManufacturerView(airplaneView.getManufacturerView());
+				} else {
+					log.warn("Airplane Id \"{}\" not found!", airplane.getId());
+					airplane.setModel("Not Found Id=" + airplane.getId());
+				}
+			});
+		}
+
 		return airliner;
 	}
 	

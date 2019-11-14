@@ -11,5 +11,6 @@ public interface AirplaneRepository extends JpaRepository<Airplane, Long> {
 	
 	List<Airplane> findByModel(String model);
 	List<Airplane> findByManufacturer(Manufacturer manufacturer);
+	List<Airplane> findAllByIds(List<Long> listIds);
 
 }

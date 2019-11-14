@@ -2,6 +2,8 @@ package ujr.flightstore.airplane.client.view;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +21,8 @@ public class AirplaneView implements Serializable {
 	
 	private Long id;
 	private String model;
-	private ManufacturerView manufacturer;
+	@JsonProperty("manufacturer")
+	private ManufacturerView manufacturerView;
 	private Integer seats;
 	private Integer rangeKm;
 

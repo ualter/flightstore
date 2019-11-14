@@ -16,7 +16,7 @@ import ujr.flightstore.config.MysqlConfigProperties;
 @SpringBootApplication(exclude = ConfigReloadAutoConfiguration.class)
 @ComponentScan(basePackages = "ujr.flightstore")
 @EnableEncryptableProperties
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"ujr.flightstore.airplane.client"})
 @EnableConfigurationProperties({MysqlConfigProperties.class, CacheConfigProperties.class})
 public class AirlinerApp 
 {

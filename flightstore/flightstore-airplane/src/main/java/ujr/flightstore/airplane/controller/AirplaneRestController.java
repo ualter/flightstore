@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import ujr.flightstore.airplane.model.Airplane;
 import ujr.flightstore.airplane.service.AirplaneService;
 import ujr.flightstore.controller.CommonApiResponsesCreation;
@@ -30,9 +31,11 @@ import ujr.flightstore.exception.ResourceNotFoundException;
 
 // Check: https://dzone.com/articles/spring-boot-2-restful-api-documentation-with-swagg
 
+
 @Api(value = "Flightstore", description = "REST API for Airplane", tags = { "Airplane" })
 @RestController
 @RequestMapping(path = "/api/v1")
+@Slf4j
 public class AirplaneRestController {
 	
 	@Autowired
@@ -64,11 +67,22 @@ public class AirplaneRestController {
 	public Airplane findById(@PathVariable(value = "id") Long id) {
 		Airplane airplane = this.airplaneService.findById(id);
 		if ( airplane == null ) {
+			log.error("Airplane \"{}\" not found!", id);
 			throw new ResourceNotFoundException(
 				messageSource.getMessage("errors.resource_not_found", new Object[]{"Airplane",id}, Locale.getDefault())
 			);
 		}
+		
 		return airplane;
+	}
+	
+	@ApiOperation(value = "Find a set of Airplanes based on its Ids", response = List.class, tags = { "Airplane" })
+	@CommonApiResponsesQuery
+	@PostMapping(path = "/airplanes/ids", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public List<Airplane> findByIds(@RequestBody List<Long> ids) {
+		List<Airplane> airplanes = this.airplaneService.findByIds(ids);
+		return airplanes;
 	}
 	
 	@ApiOperation(value = "Delete a specific Airplane", response = Airplane.class)

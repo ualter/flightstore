@@ -35,7 +35,7 @@ import ujr.flightstore.airliner.service.AirlinerService;
 @RunWith(SpringRunner.class)
 @WebMvcTest(AirlinerRestController.class)
 public class AirlinerRestControllerTest {
-	
+	/*
 	@Autowired
 	private MockMvc mvc;
 	
@@ -94,16 +94,16 @@ public class AirlinerRestControllerTest {
 		this.airliner = Airliner.builder()
 				.id(33L)
 				.name("Iberia")
-				.airplanes(airplanesId)
+				.airplaneIds(airplanesId)
 				.build();
 		
 		List<Airliner> listAirliners = new ArrayList<Airliner>();
-		listAirliners.add(Airliner.builder().name("Iberia").airplanes(airplanesId).build());
-		listAirliners.add(Airliner.builder().name("Air British").airplanes(airplanesId).build());
-		listAirliners.add(Airliner.builder().name("Air France").airplanes(airplanesId).build());
-		listAirliners.add(Airliner.builder().name("TAP").airplanes(airplanesId).build());
-		listAirliners.add(Airliner.builder().name("Air Italia").airplanes(airplanesId).build());
-		listAirliners.add(Airliner.builder().name("KLM").airplanes(airplanesId).build());
+		listAirliners.add(Airliner.builder().name("Iberia").airplaneIds(airplanesId).build());
+		listAirliners.add(Airliner.builder().name("Air British").airplaneIds(airplanesId).build());
+		listAirliners.add(Airliner.builder().name("Air France").airplaneIds(airplanesId).build());
+		listAirliners.add(Airliner.builder().name("TAP").airplaneIds(airplanesId).build());
+		listAirliners.add(Airliner.builder().name("Air Italia").airplaneIds(airplanesId).build());
+		listAirliners.add(Airliner.builder().name("KLM").airplaneIds(airplanesId).build());
 		List<Airliner> listAirlinersIberica = new ArrayList<Airliner>();
 		listAirliners.forEach(a -> {
 			if ( a.getName() == "Iberia" ) listAirlinersIberica.add(a);
@@ -117,5 +117,5 @@ public class AirlinerRestControllerTest {
 		BDDMockito.given(airlinerService.findByName(any(String.class))).willReturn(listIberia);
 		BDDMockito.given(airlinerService.save(any(Airliner.class))).willReturn(this.airliner);
 	}
-	
+	*/
 }

@@ -30,6 +30,7 @@ import ujr.flightstore.airliner.service.AirlinerService;
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class AirlinerServiceTest {
 	
+	/*
 	@TestConfiguration
 	static class AirlinerServiceTestContextConfiguration {
 		@Bean
@@ -56,12 +57,12 @@ public class AirlinerServiceTest {
 			airplanesId.add(1L);
 			airplanesId.add(2L);
 			airplanesId.add(3L);
-			entityManager.persist(Airliner.builder().name("Iberia").airplanes(airplanesId).build());
-			entityManager.persist(Airliner.builder().name("Air British").airplanes(airplanesId).build());
-			entityManager.persist(Airliner.builder().name("Air France").airplanes(airplanesId).build());
-			entityManager.persist(Airliner.builder().name("TAP").airplanes(airplanesId).build());
-			entityManager.persist(Airliner.builder().name("Air Italia").airplanes(airplanesId).build());
-			entityManager.persist(Airliner.builder().name("KLM").airplanes(airplanesId).build());
+			entityManager.persist(Airliner.builder().name("Iberia").airplaneIds(airplanesId).build());
+			entityManager.persist(Airliner.builder().name("Air British").airplaneIds(airplanesId).build());
+			entityManager.persist(Airliner.builder().name("Air France").airplaneIds(airplanesId).build());
+			entityManager.persist(Airliner.builder().name("TAP").airplaneIds(airplanesId).build());
+			entityManager.persist(Airliner.builder().name("Air Italia").airplaneIds(airplanesId).build());
+			entityManager.persist(Airliner.builder().name("KLM").airplaneIds(airplanesId).build());
 			entityManager.flush();
 			this.setUp = true;
 		}
@@ -111,5 +112,5 @@ public class AirlinerServiceTest {
 					.hasSize(1)
 					.allMatch(p -> p.getName().toLowerCase().equals("iberia"));
 	}
-
+	 */
 }
