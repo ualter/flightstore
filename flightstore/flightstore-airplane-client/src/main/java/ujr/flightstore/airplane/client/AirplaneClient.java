@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ujr.flightstore.airplane.client.view.AirplaneView;
 
 
-@FeignClient(name = "flightstore-airplane" )
+@FeignClient(name = "flightstore-airplane", configuration = FeignConfiguration.class)
 public interface AirplaneClient {
 
 	@GetMapping(path = "flightstore-airplane/api/v1/airplanes", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

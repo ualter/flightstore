@@ -74,6 +74,7 @@ public class AirlinerRestController {
 		});
 		// Requesting all of the Airplanes and fill up the Airline collection with them
 		List<AirplaneView> airplanes = this.airplaneClient.findByIds(listAirplaneIds);
+		// Fill the Airliner airplane list with the returned values
 		if (airplanes == null || airplanes.size() == 0 ) {
 			log.warn("Nothing found for the requested airplanes Ids: " + listAirplaneIds);
 		} else {
