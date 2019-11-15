@@ -14,7 +14,6 @@ import ujr.flightstore.config.MysqlConfigProperties;
 @SpringBootApplication(exclude = ConfigReloadAutoConfiguration.class)
 @ComponentScan(basePackages = "ujr.flightstore")
 @EnableEncryptableProperties
-//@EnableEurekaClient
 @EnableConfigurationProperties({MysqlConfigProperties.class, CacheConfigProperties.class})
 public class AirplaneApp 
 {

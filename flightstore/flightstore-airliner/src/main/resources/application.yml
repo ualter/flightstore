@@ -1,5 +1,5 @@
 server:
-  port: 9181
+  port: 0
   servlet:
     context-path: /flightstore-airliner
     
