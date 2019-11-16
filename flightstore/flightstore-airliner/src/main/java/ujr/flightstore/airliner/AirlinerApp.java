@@ -3,6 +3,7 @@ package ujr.flightstore.airliner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.kubernetes.config.reload.ConfigReloadAutoConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,6 +19,7 @@ import ujr.flightstore.config.MysqlConfigProperties;
 @EnableEncryptableProperties
 @EnableFeignClients(basePackages = {"ujr.flightstore.airplane.client"})
 @EnableConfigurationProperties({MysqlConfigProperties.class, CacheConfigProperties.class})
+@EnableDiscoveryClient
 public class AirlinerApp 
 {
     public static void main( String[] args )

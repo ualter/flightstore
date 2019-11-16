@@ -70,10 +70,14 @@ redis-cache:
 spring:
   profiles: minishift
 mysql:
-  ip: 10.253.163.97
+#  ip: 10.253.163.97
+  ip: 192.168.1.37
   port: 4406
 redis-cache:
-  host: "10.253.163.97"  
+#  host: "10.253.163.97"
+  host: "192.168.1.37"
+server:
+  port: 9180    
   
 ---
 

@@ -3,6 +3,7 @@ package ujr.flightstore.airplane;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.kubernetes.config.reload.ConfigReloadAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -15,6 +16,7 @@ import ujr.flightstore.config.MysqlConfigProperties;
 @ComponentScan(basePackages = "ujr.flightstore")
 @EnableEncryptableProperties
 @EnableConfigurationProperties({MysqlConfigProperties.class, CacheConfigProperties.class})
+@EnableDiscoveryClient
 public class AirplaneApp 
 {
     public static void main( String[] args )

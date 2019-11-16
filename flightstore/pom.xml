@@ -122,6 +122,10 @@
 		<!-- Spring Cloud -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-kubernetes</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-kubernetes-config</artifactId>
 		</dependency>
 		<dependency>
@@ -130,9 +134,15 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-			<scope>provided</scope>
+			<artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-kubernetes-ribbon</artifactId>
+		</dependency>
+
+		<!-- <dependency> <groupId>org.springframework.cloud</groupId> <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId> 
+			<scope>provided</scope> </dependency> -->
 
 	</dependencies>
 
@@ -161,5 +171,5 @@
 		<module>flightstore-airliner</module>
 		<module>flightstore-commons</module>
 	</modules>
-	
+
 </project>
