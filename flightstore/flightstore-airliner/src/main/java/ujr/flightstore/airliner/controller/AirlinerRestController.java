@@ -23,7 +23,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import ujr.flightstore.airliner.model.Airliner;
-import ujr.flightstore.airliner.model.AirplaneProxy;
 import ujr.flightstore.airliner.service.AirlinerService;
 import ujr.flightstore.airplane.client.AirplaneClient;
 import ujr.flightstore.airplane.client.view.AirplaneView;
@@ -68,53 +67,22 @@ public class AirlinerRestController {
 		}
 		
 		// Consulting the Airplanes Data from Airplane Micro Services
-		// Preparing the List of Ids (Long)
+		// Preparing the List of Airplane Ids (Long) to be retrieved
 		List<Long> listAirplaneIds = new ArrayList<Long>();
-		log.error(" ");
-		log.error(" ");
-		log.error("***************************");
-		log.error("***************************");
-		if ( airliner.getAirplanes() != null ) {
-			for(AirplaneProxy xx : airliner.getAirplanes()) {
-				log.error("AirplaneProxy.getId()="+xx.getId());
-			}
-			
-		}
 		airliner.getAirplanes().forEach(a -> { 
 			listAirplaneIds.add(a.getId()); 
 		});
-		// Requesting all of the Airplanes and fill up the Airline collection with them
+		// Requesting all of the Airplanes data from other MicroService
 		List<AirplaneView> airplanesFromAirplaneMS = this.airplaneClient.findByIds(listAirplaneIds);
-		if ( airplanesFromAirplaneMS != null ) {
-			for(AirplaneView yy : airplanesFromAirplaneMS) {
-				log.error("Airplanes from Airplane MS - AirplaneView.getId()="+yy.getId());
-			}
-			
-		}
 		// Fill the Airliner airplane list with the returned values
 		if (airplanesFromAirplaneMS == null || airplanesFromAirplaneMS.size() == 0 ) {
 			log.warn("Nothing found for the requested airplanes Ids: " + listAirplaneIds);
 		} else {
-			airliner.getAirplanes().forEach(airplane -> {
-				
-				
-				AirplaneView airplaneView = null;
-				for(AirplaneView airplaneFromAirplaneMS : airplanesFromAirplaneMS) {
-					log.error("airplaneFromAirplaneMS.getId() == airplane.getId() = [" + 
-							airplaneFromAirplaneMS.getId() + "==" + airplane.getId() + "]");
-					if ( airplaneFromAirplaneMS.getId().longValue() == airplane.getId().longValue() ) {
-						airplaneView = airplaneFromAirplaneMS;
-						break;
-					}
-				}
-				
-				/*
-				AirplaneView airplaneView = airplanes.stream()
-							.filter(a -> a.getId() == airplane.getId())
+			airliner.getAirplanes().forEach( airplane -> {
+				AirplaneView airplaneView = airplanesFromAirplaneMS.stream()
+							.filter( a -> a.getId().longValue() == airplane.getId().longValue() )
 							.findFirst()
 							.orElse(null);
-				*/
-				log.error("airplaneView=" + airplaneView);
 				if ( airplaneView != null ) {
 					airplane.setModel(airplaneView.getModel());
 					airplane.setRangeKm(airplaneView.getRangeKm());
@@ -127,7 +95,6 @@ public class AirlinerRestController {
 				
 			});
 		}
-
 		return airliner;
 	}
 	
