@@ -8,7 +8,7 @@
 ## if needed: oc create configmap flightstore-airliner --from-file=src/main/resources/application.yml
 
 #1
-#mvn clean install -Dmaven.test.skip=true
+#mvn clean install -Dmaven.test.skip=true -Pminishift
 
 #***********************************************************
 #***********************************************************

@@ -42,7 +42,7 @@ echo " "
 echo "*********************************************************"
 echo "Build a new flightstore-airplane Docker Image"
 echo "*********************************************************"
-mvn clean install -Dmaven.test.skip=true dockerfile:build
+mvn clean install -Dmaven.test.skip=true dockerfile:build -Pminishift
 echo " "
 
 echo "******************************************************************"
