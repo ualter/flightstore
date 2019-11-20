@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import ujr.flightstore.airliner.AirlinerApp;
 import ujr.flightstore.airliner.model.Airliner;
+import ujr.flightstore.airliner.model.Airliner.AirplaneProxy;
 import ujr.flightstore.airliner.service.AirlinerService;
 
 
@@ -41,7 +42,7 @@ import ujr.flightstore.airliner.service.AirlinerService;
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class AirlinerIntegrationTest {
 
-	/*@Autowired
+	@Autowired
 	private MockMvc mvc;
 	
 	@Autowired
@@ -49,17 +50,17 @@ public class AirlinerIntegrationTest {
 	
 	@Test
 	public void whenList_thenReturnAllAirliners() throws Exception {
-		Set<Long> airplanesId = new HashSet<Long>();
-		airplanesId.add(1L);
-		airplanesId.add(2L);
-		airplanesId.add(3L);
+		Set<AirplaneProxy> airplanesProxy = new HashSet<AirplaneProxy>();
+		airplanesProxy.add(AirplaneProxy.builder().id(1L).build());
+		airplanesProxy.add(AirplaneProxy.builder().id(2L).build());
+		airplanesProxy.add(AirplaneProxy.builder().id(3L).build());
 		
-		airlinerService.save(Airliner.builder().name("Iberia").airplaneIds(airplanesId).build());
-		airlinerService.save(Airliner.builder().name("Air British").airplaneIds(airplanesId).build());
-		airlinerService.save(Airliner.builder().name("Air France").airplaneIds(airplanesId).build());
-		airlinerService.save(Airliner.builder().name("TAP").airplaneIds(airplanesId).build());
-		airlinerService.save(Airliner.builder().name("Air Italia").airplaneIds(airplanesId).build());
-		airlinerService.save(Airliner.builder().name("KLM").airplaneIds(airplanesId).build());
+		airlinerService.save(Airliner.builder().name("Iberia").airplanes(airplanesProxy).build());
+		airlinerService.save(Airliner.builder().name("Air British").airplanes(airplanesProxy).build());
+		airlinerService.save(Airliner.builder().name("Air France").airplanes(airplanesProxy).build());
+		airlinerService.save(Airliner.builder().name("TAP").airplanes(airplanesProxy).build());
+		airlinerService.save(Airliner.builder().name("Air Italia").airplanes(airplanesProxy).build());
+		airlinerService.save(Airliner.builder().name("KLM").airplanes(airplanesProxy).build());
 		
 		mvc.perform(get("/api/v1/airliners")
 				.contentType(MediaType.APPLICATION_JSON))
@@ -69,5 +70,4 @@ public class AirlinerIntegrationTest {
 			    .andExpect(jsonPath("$[0].name", is("Iberia")));
 				
 	}
-*/
 }

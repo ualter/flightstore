@@ -50,6 +50,7 @@ public class Airliner implements Serializable {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	@Embeddable
+	@Builder
 	public static class AirplaneProxy implements Serializable {
 
 		private static final long serialVersionUID = 1L;

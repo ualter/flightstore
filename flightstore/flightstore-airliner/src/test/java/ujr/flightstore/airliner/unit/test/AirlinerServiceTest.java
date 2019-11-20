@@ -10,11 +10,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.cloud.netflix.ribbon.RibbonAutoConfiguration;
+import org.springframework.cloud.openfeign.FeignAutoConfiguration;
+import org.springframework.cloud.openfeign.ribbon.FeignRibbonClientAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,14 +27,18 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import ujr.flightstore.airliner.model.Airliner;
+import ujr.flightstore.airliner.model.Airliner.AirplaneProxy;
 import ujr.flightstore.airliner.service.AirlinerService;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
+@ImportAutoConfiguration(
+		{RibbonAutoConfiguration.class, 
+		 FeignRibbonClientAutoConfiguration.class,
+		 FeignAutoConfiguration.class})
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class AirlinerServiceTest {
 	
-	/*
 	@TestConfiguration
 	static class AirlinerServiceTestContextConfiguration {
 		@Bean
@@ -53,16 +61,16 @@ public class AirlinerServiceTest {
 	@Before
 	public void setMockOutput() {
 		if (!this.setUp) {
-			Set<Long> airplanesId = new HashSet<Long>();
-			airplanesId.add(1L);
-			airplanesId.add(2L);
-			airplanesId.add(3L);
-			entityManager.persist(Airliner.builder().name("Iberia").airplaneIds(airplanesId).build());
-			entityManager.persist(Airliner.builder().name("Air British").airplaneIds(airplanesId).build());
-			entityManager.persist(Airliner.builder().name("Air France").airplaneIds(airplanesId).build());
-			entityManager.persist(Airliner.builder().name("TAP").airplaneIds(airplanesId).build());
-			entityManager.persist(Airliner.builder().name("Air Italia").airplaneIds(airplanesId).build());
-			entityManager.persist(Airliner.builder().name("KLM").airplaneIds(airplanesId).build());
+			Set<AirplaneProxy> airplaneProxies = new HashSet<AirplaneProxy>();
+			airplaneProxies.add(AirplaneProxy.builder().id(1L).build());
+			airplaneProxies.add(AirplaneProxy.builder().id(2L).build());
+			airplaneProxies.add(AirplaneProxy.builder().id(3L).build());
+			entityManager.persist(Airliner.builder().name("Iberia").airplanes(airplaneProxies).build());
+			entityManager.persist(Airliner.builder().name("Air British").airplanes(airplaneProxies).build());
+			entityManager.persist(Airliner.builder().name("Air France").airplanes(airplaneProxies).build());
+			entityManager.persist(Airliner.builder().name("TAP").airplanes(airplaneProxies).build());
+			entityManager.persist(Airliner.builder().name("Air Italia").airplanes(airplaneProxies).build());
+			entityManager.persist(Airliner.builder().name("KLM").airplanes(airplaneProxies).build());
 			entityManager.flush();
 			this.setUp = true;
 		}
@@ -112,5 +120,4 @@ public class AirlinerServiceTest {
 					.hasSize(1)
 					.allMatch(p -> p.getName().toLowerCase().equals("iberia"));
 	}
-	 */
 }

@@ -30,17 +30,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ujr.flightstore.airliner.controller.AirlinerRestController;
 import ujr.flightstore.airliner.model.Airliner;
+import ujr.flightstore.airliner.model.Airliner.AirplaneProxy;
 import ujr.flightstore.airliner.service.AirlinerService;
+import ujr.flightstore.airplane.client.AirplaneClient;
+import ujr.flightstore.airplane.client.view.AirplaneView;
+import ujr.flightstore.airplane.client.view.ManufacturerView;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(AirlinerRestController.class)
 public class AirlinerRestControllerTest {
-	/*
+	
 	@Autowired
 	private MockMvc mvc;
 	
 	@MockBean
 	private AirlinerService airlinerService;
+	
+	@MockBean
+	private AirplaneClient airplaneClient;
 	
 	private Airliner airliner;
 	
@@ -85,25 +92,26 @@ public class AirlinerRestControllerTest {
 		String content = result.getResponse().getContentAsString();
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void createServiceEnviroment() {
-		Set<Long> airplanesId = new HashSet<Long>();
-		airplanesId.add(1L);
-		airplanesId.add(2L);
-		airplanesId.add(3L);
+		Set<AirplaneProxy> airplanesProxy = new HashSet<AirplaneProxy>();
+		airplanesProxy.add(AirplaneProxy.builder().id(1L).build());
+		airplanesProxy.add(AirplaneProxy.builder().id(2L).build());
+		airplanesProxy.add(AirplaneProxy.builder().id(3L).build());
 		
 		this.airliner = Airliner.builder()
 				.id(33L)
 				.name("Iberia")
-				.airplaneIds(airplanesId)
+				.airplanes(airplanesProxy)
 				.build();
 		
 		List<Airliner> listAirliners = new ArrayList<Airliner>();
-		listAirliners.add(Airliner.builder().name("Iberia").airplaneIds(airplanesId).build());
-		listAirliners.add(Airliner.builder().name("Air British").airplaneIds(airplanesId).build());
-		listAirliners.add(Airliner.builder().name("Air France").airplaneIds(airplanesId).build());
-		listAirliners.add(Airliner.builder().name("TAP").airplaneIds(airplanesId).build());
-		listAirliners.add(Airliner.builder().name("Air Italia").airplaneIds(airplanesId).build());
-		listAirliners.add(Airliner.builder().name("KLM").airplaneIds(airplanesId).build());
+		listAirliners.add(Airliner.builder().name("Iberia").airplanes(airplanesProxy).build());
+		listAirliners.add(Airliner.builder().name("Air British").airplanes(airplanesProxy).build());
+		listAirliners.add(Airliner.builder().name("Air France").airplanes(airplanesProxy).build());
+		listAirliners.add(Airliner.builder().name("TAP").airplanes(airplanesProxy).build());
+		listAirliners.add(Airliner.builder().name("Air Italia").airplanes(airplanesProxy).build());
+		listAirliners.add(Airliner.builder().name("KLM").airplanes(airplanesProxy).build());
 		List<Airliner> listAirlinersIberica = new ArrayList<Airliner>();
 		listAirliners.forEach(a -> {
 			if ( a.getName() == "Iberia" ) listAirlinersIberica.add(a);
@@ -116,6 +124,28 @@ public class AirlinerRestControllerTest {
 		BDDMockito.given(airlinerService.list()).willReturn(listAirliners);
 		BDDMockito.given(airlinerService.findByName(any(String.class))).willReturn(listIberia);
 		BDDMockito.given(airlinerService.save(any(Airliner.class))).willReturn(this.airliner);
+		
+		
+		AirplaneView airplaneView = AirplaneView.builder()
+									.id(1L)
+									.model("A320")
+									.rangeKm(12000)
+									.seats(120)
+									.manufacturerView(ManufacturerView.builder().id(1L).name("Boeing").build())
+									.build();
+		
+		List<AirplaneView> listAirplaneView = new ArrayList<AirplaneView>();
+		listAirplaneView.add(AirplaneView.builder().id(1L).model("A320").rangeKm(25000).seats(202)
+									 .manufacturerView(ManufacturerView.builder().id(1L).name("Airbus").build()).build());
+		listAirplaneView.add(AirplaneView.builder().id(1L).model("A380").rangeKm(25000).seats(202)
+				 .manufacturerView(ManufacturerView.builder().id(1L).name("Airbus").build()).build());
+		listAirplaneView.add(AirplaneView.builder().id(1L).model("B737").rangeKm(25000).seats(202)
+				 .manufacturerView(ManufacturerView.builder().id(1L).name("Boeing").build()).build());
+		listAirplaneView.add(AirplaneView.builder().id(1L).model("B777").rangeKm(25000).seats(202)
+				 .manufacturerView(ManufacturerView.builder().id(1L).name("Boeing").build()).build());
+		
+		BDDMockito.given(airplaneClient.findById(any(Long.class))).willReturn(airplaneView);
+		BDDMockito.given(airplaneClient.findByIds(any(List.class))).willReturn(listAirliners);
+		BDDMockito.given(airplaneClient.findByManufacturer(any(Long.class))).willReturn(listAirplaneView);
 	}
-	*/
 }
