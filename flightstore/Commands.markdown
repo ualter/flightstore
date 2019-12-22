@@ -16,10 +16,13 @@ $ mvn spring-boot:run -Dspring-boot.run.arguments=spring.profiles.active=windows
 
 #### Default Profile (Mac)
 ```bash
-$ mvn spring-boot:run -Djasypt.encryptor.password=**** -V
+$ mvn spring-boot:run -Djasypt.encryptor.password=****  (-PEureka) -V
 
 # Windows Profile
 $ mvn spring-boot:run -Dspring.profiles.active=windows -Djasypt.encryptor.password=**** -V
+
+# Running with Eureka (Local Inter-Service Communication)
+$ mvn spring-boot:run -Peureka -Dspring.profiles.active=windows -Djasypt.encryptor.password=****
 
 # Others Commands
 $ mvn clean package -Dmaven.test.skip=true
